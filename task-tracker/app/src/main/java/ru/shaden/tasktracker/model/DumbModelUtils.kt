@@ -18,11 +18,12 @@ object DumbModelUtils {
 
     private fun createDumbWorkspaceList(projects: Collection<Project>): Map<Int, Map<Int, Workspace>> {
         val map = ArrayMap<Int, Map<Int, Workspace>>()
+        var wsId = 0;
         for (project in projects) {
             val workspacesMap = ArrayMap<Int, Workspace>()
             for (i in 0..3) {
                 workspacesMap[i] = DumbWorkspace(
-                    i,
+                    wsId++,
                     "Workspace p${project.id}-$i",
                     "Description for Workspace№$i",
                     project
@@ -35,13 +36,14 @@ object DumbModelUtils {
 
     private fun createDumbTaskList(workspaces: Map<Int, Map<Int, Workspace>>): Map<Int, Map<Int, Task>> {
         val tasksMap = ArrayMap<Int, Map<Int, Task>>()
+        var taskId = 0;
         for (workspaceMap in workspaces.values) {
             for (workspace in workspaceMap.values) {
                 val taskMap = ArrayMap<Int, Task>()
                 for (i in 0..100) {
-                    taskMap[workspace.id] =
+                    taskMap[taskId] =
                         DumbTask(
-                            i,
+                            taskId++,
                             "Task$i",
                             "Description for Task№$i in Workspace ${workspace.id} in project ${workspace.project.id}",
                             workspace,
