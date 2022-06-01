@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="icons_color">#A21D31B3</color>
+    <color name="project_list_background_gradient_start">#1D31B3</color>
+    <color name="project_list_background_gradient_end">#FFFFFF</color>
+    <color name="workspaces_list_background_gradient_start">#43E33E</color>
+    <color name="workspaces_list_background_gradient_end">#FFFFFF</color>
+    <color name="tasks_list_background_gradient_start">#631CA3</color>
+    <color name="tasks_list_background_gradient_end">#C1B00A</color>
+    <color name="view_separator">#5E5E5B</color>
 </resources>
