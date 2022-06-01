@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Task Tracker</string>
+    <string name="task_name_format" translatable="false">%1s: %2s</string>
 </resources>
