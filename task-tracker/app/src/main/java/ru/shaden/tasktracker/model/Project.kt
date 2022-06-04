@@ -2,6 +2,7 @@ package ru.shaden.tasktracker.model
 
 interface Project {
     val id: Int
-    val name: String
-    val description: String
+    var name: String
+    var description: String?
+    var workspacesList: List<Workspace>?
 }
