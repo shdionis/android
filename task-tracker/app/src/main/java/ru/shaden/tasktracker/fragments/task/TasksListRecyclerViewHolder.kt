@@ -16,10 +16,10 @@ class TasksListRecyclerViewHolder(
     fun bind(task: Task) {
         taskTitle.text = view.context.resources.getString(
             R.string.task_name_format,
-            task.workspace.name,
+            task.workspace?.name,
             task.name
         )
-        taskStatus.text = task.status.name
+        taskStatus.text = task.status?.name
         view.setOnClickListener {
             listener.onClick(task)
         }

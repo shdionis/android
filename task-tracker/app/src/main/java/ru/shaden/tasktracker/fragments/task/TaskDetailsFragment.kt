@@ -6,16 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.fragment.app.activityViewModels
 import ru.shaden.tasktracker.R
+import ru.shaden.tasktracker.di.DumbDI
 import ru.shaden.tasktracker.fragments.BaseFragment
-import ru.shaden.tasktracker.model.DumbModelUtils
-import ru.shaden.tasktracker.model.Task
+import ru.shaden.tasktracker.viewmodels.TaskDetailsViewModel
 
 class TaskDetailsFragment : BaseFragment() {
 
     private lateinit var taskTitle: EditText
     private lateinit var taskStatus: TextView
     private lateinit var taskDescription: TextView
+    private val viewModel: TaskDetailsViewModel by activityViewModels {
+        DumbDI.viewModelProviderFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,28 +27,27 @@ class TaskDetailsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.task_details_fragment, container, false)
-        val task = getTask() ?: return view
+        val taskId = arguments?.getInt(ARG_TASK_ID) ?: return view
+        val workspaceId = arguments?.getInt(ARG_WORKSPACE_ID) ?: return view
         taskTitle = view.findViewById(R.id.task_title_edit_text)
         taskStatus = view.findViewById(R.id.task_status)
         taskDescription = view.findViewById(R.id.task_description)
 
-        fillData(task)
+        fillData(taskId, workspaceId)
         return view
     }
 
-    private fun fillData(task: Task) {
-        context?.getString(R.string.task_name_format, task.workspace.name, task.name)?.let {
-            taskTitle.setText(it)
-        } ?: return
+    private fun fillData(taskId: Int, workspaceId: Int) {
+        viewModel.getTaskWithStatusByIdWithWorkspaceById(taskId, workspaceId)
+            .observe(viewLifecycleOwner) { task ->
+                context?.getString(R.string.task_name_format, task.workspace?.name, task.name)
+                    ?.let {
+                        taskTitle.setText(it)
+                    }
+                taskStatus.text = task.status?.name
+                taskDescription.text = task.description
+            }
 
-        taskStatus.text = task.status.name
-        taskDescription.text = task.description
-    }
-
-    private fun getTask(): Task? {
-        val taskId = arguments?.getInt(ARG_TASK_ID) ?: return null
-        val workspaceId = arguments?.getInt(ARG_WORKSPACE_ID) ?: return null
-        return DumbModelUtils.tasks[workspaceId]?.let { it[taskId] }
     }
 
     companion object {
