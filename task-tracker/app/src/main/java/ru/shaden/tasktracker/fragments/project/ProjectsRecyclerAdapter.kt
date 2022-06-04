@@ -7,7 +7,7 @@ import ru.shaden.tasktracker.R
 import ru.shaden.tasktracker.model.Project
 
 class ProjectsRecyclerAdapter(
-    private val projects: List<Project>,
+    internal var projects: List<Project> = ArrayList(),
     private val listener: Listener,
 ) : RecyclerView.Adapter<ProjectsRecyclerViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectsRecyclerViewHolder {
@@ -21,9 +21,8 @@ class ProjectsRecyclerAdapter(
         holder.bind(project)
     }
 
-    override fun getItemCount(): Int = projects.size
+    override fun getItemCount(): Int = projects.size ?: 0
 
-    @FunctionalInterface
     interface Listener {
         fun onClick(project: Project)
     }

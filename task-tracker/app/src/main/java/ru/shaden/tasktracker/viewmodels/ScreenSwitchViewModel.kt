@@ -1,17 +1,16 @@
 package ru.shaden.tasktracker.viewmodels
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class ScreenSwitchViewModel : ViewModel() {
-    val selectedFlow = MutableLiveData<State?>()
-
-    init {
-        selectedFlow.value = State.ProjectListState
-    }
+    private val internalStateFlow: MutableStateFlow<State?> =
+        MutableStateFlow(State.ProjectListState)
+    val selectedFlow: Flow<State?> = internalStateFlow
 
     fun switch(state: State) {
-        selectedFlow.value = state
-        selectedFlow.value = null
+        internalStateFlow.value = state
+        internalStateFlow.value = null
     }
 }
