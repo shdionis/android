@@ -1,0 +1,31 @@
+{
+  "quest_steps": [
+    {
+      "id": 1,
+      "quest_title": "title1",
+      "quest_text": "quest1",
+      "quest_answer": "answer1",
+      "quest_wrong_message": "wrong2",
+      "quest_hints": [],
+      "quest_image": "quest_image_stub"
+    },
+    {
+      "id": 2,
+      "quest_title": "title2",
+      "quest_text": "quest2",
+      "quest_answer": "answer2",
+      "quest_wrong_message": "wrong2",
+      "quest_hints": [],
+      "quest_image": "quest_image_stub"
+    },
+    {
+      "id": 3,
+      "quest_title": "title3",
+      "quest_text": "quest3",
+      "quest_answer": "answer3",
+      "quest_wrong_message": "wrong3",
+      "quest_hints": ["hint3-1", "hint3-2", "hint3-3"],
+      "quest_image": "quest_image_stub"
+    }
+  ]
+}
