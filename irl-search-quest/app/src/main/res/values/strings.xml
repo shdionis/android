@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">irl-search-quest</string>
+    <string name="app_name">7 Seals Secret</string>
     <string name="location_permission_rationale_request">request permission</string>
     <string name="location_permission_rationale_request_approve">approve</string>
     <string name="location_permission_rationale_request_decline">decline</string>
     <string name="location_permission_rationale_notification">notification</string>
     <string name="location_permission_rationale_notification_accept">accept</string>
-    <string name="write_answer">Ответ:</string>
-    <string name="check_answer">Проверить</string>
+    <string name="write_answer">Ответ</string>
+    <string name="check_answer">Сломать печать</string>
+    <string name="some_error">Что то пошло не так…</string>
+    <string name="quest_text_template"><![CDATA[%s]]></string>
 </resources>
