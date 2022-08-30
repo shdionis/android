@@ -2,17 +2,21 @@ package ru.montgolfiere.searchquest.viewmodels.state
 
 import ru.montgolfiere.searchquest.model.QuestStep
 
-sealed class ScreenState(
+sealed class State(
     val status: StateStatus
 )
 
+class LoadingState: State(StateStatus.LOADING)
+
+class FinishState: State(StateStatus.OK)
+
 class DataState(
     val data: QuestStep
-) : ScreenState(StateStatus.OK)
+) : State(StateStatus.OK)
 
 class ErrorState(
     val cause: ErrorCauses
-) : ScreenState(StateStatus.ERROR)
+) : State(StateStatus.ERROR)
 
 enum class ErrorCauses {
     NOT_FOUND,
@@ -20,5 +24,5 @@ enum class ErrorCauses {
 }
 
 enum class StateStatus {
-    OK, ERROR
+    OK, ERROR, LOADING
 }

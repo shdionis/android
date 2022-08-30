@@ -1,50 +1,30 @@
 package ru.montgolfiere.searchquest.viewmodels
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import ru.montgolfiere.searchquest.config.QuestConfig
-import ru.montgolfiere.searchquest.model.Quest
-import ru.montgolfiere.searchquest.model.QuestStep
-import ru.montgolfiere.searchquest.viewmodels.state.DataState
-import ru.montgolfiere.searchquest.viewmodels.state.ErrorCauses
-import ru.montgolfiere.searchquest.viewmodels.state.ErrorState
-import ru.montgolfiere.searchquest.viewmodels.state.ScreenState
+import ru.montgolfiere.searchquest.interact.QuestInteractor
+import ru.montgolfiere.searchquest.viewmodels.state.State
 
 class QuestViewModel(
-    val questConfig: QuestConfig
+    private val questInteractor: QuestInteractor
 ): ViewModel() {
-    private val questStepLiveData = MutableLiveData<ScreenState>()
-    private var requestQuestDataJob: Job? = null
+    private val questStepLiveData = MutableLiveData<State>()
 
-    fun getActualQuestStep(context: Context): LiveData<ScreenState> {
-        requestQuestDataJob?.cancel()
-        requestQuestDataJob = viewModelScope.launch(Dispatchers.Main) {
-            val job = async(Dispatchers.IO) {
-                try {
-                    val questStepsStream = context.assets.open("quest_steps.json")
-                    val size = questStepsStream.available()
-                    val buffer = ByteArray(size)
-                    questStepsStream.read(buffer)
-                    val quest = Gson().fromJson(String(buffer), Quest::class.java)
-                    findQuestStep(quest)?.let { DataState(it) } ?: ErrorState(ErrorCauses.NOT_FOUND)
-                } catch (ex: Exception) {
-                    ErrorState(ErrorCauses.PARSE_ERROR)
-                }
+    fun getActualQuestStep(): LiveData<State> {
+        viewModelScope.launch {
+            questInteractor.fetchActualQuestStepData().collect {
+                questStepLiveData.value = it
             }
-            questStepLiveData.value = job.await()
         }
         return questStepLiveData
     }
 
-    private fun findQuestStep(data: Quest): QuestStep? {
-        return data.questSteps.firstOrNull()
+    fun checkAnswer(answer: String): Boolean = questInteractor.checkAnswer(answer)
+
+    fun goToNextStep() {
+        questInteractor.fetchNextQuestStep()
     }
 }

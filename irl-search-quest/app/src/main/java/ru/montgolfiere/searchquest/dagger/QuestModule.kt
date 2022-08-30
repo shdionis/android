@@ -5,6 +5,8 @@ import dagger.Module
 import dagger.Provides
 import ru.montgolfiere.searchquest.config.QuestConfig
 import ru.montgolfiere.searchquest.fragments.QuestFragmentFactory
+import ru.montgolfiere.searchquest.interact.QuestInteractor
+import ru.montgolfiere.searchquest.model.repository.QuestRepository
 import ru.montgolfiere.searchquest.viewmodels.QuestViewModelFactory
 
 @Module
@@ -18,9 +20,9 @@ class QuestModule {
 
     @Provides
     fun provideQuestViewModelFactory(
-        questConfig: QuestConfig
+        questInteractor: QuestInteractor,
     ): QuestViewModelFactory {
-        return QuestViewModelFactory(questConfig)
+        return QuestViewModelFactory(questInteractor)
     }
 
     @Provides
@@ -28,5 +30,20 @@ class QuestModule {
         context: Context
     ): QuestConfig {
         return QuestConfig(context)
+    }
+
+    @Provides
+    fun provideQuestInteractor(
+        repository: QuestRepository,
+        config: QuestConfig
+    ): QuestInteractor {
+        return QuestInteractor(repository, config)
+    }
+
+    @Provides
+    fun provideQuestRepository(
+        context: Context
+    ): QuestRepository {
+        return QuestRepository(context)
     }
 }

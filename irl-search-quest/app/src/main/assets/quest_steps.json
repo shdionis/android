@@ -1,31 +1,82 @@
 {
+  "start_step_id": 1,
   "quest_steps": [
     {
       "id": 1,
-      "quest_title": "title1",
-      "quest_text": "quest1",
-      "quest_answer": "answer1",
-      "quest_wrong_message": "wrong2",
+      "quest_title": "Печать Гордыни",
+      "quest_subtitle": "Триумф Двергов",
+      "quest_text": "Высокомерие эльфов не знает границ, однако они всегда недооценивали мощь великой расы гномов. <br/><b>Смертоносное оружие</b>, создать которое подвластно лишь нам, могло бы напомнить им их место. Жаль, что братья-творцы этого шедевра - Брокк и Синдри - уже давно в лучшем мире в окружении прекрасных нимф и вкусного эля, поэтому не увидят кончины эльфийской расы...",
+      "quest_answers": ["Мьёллнир", "Мьеллнир", "Мьёльнир", "Мьельнир"],
+      "quest_wrong_message": "wrong1",
       "quest_hints": [],
-      "quest_image": "quest_image_stub"
+      "quest_image": "brokkr_sindri",
+      "next_step_id": 2
     },
     {
       "id": 2,
-      "quest_title": "title2",
-      "quest_text": "quest2",
-      "quest_answer": "answer2",
-      "quest_wrong_message": "wrong2",
-      "quest_hints": [],
-      "quest_image": "quest_image_stub"
+      "quest_title": "Печать Алчности",
+      "quest_subtitle": "Самое дорогое",
+      "quest_text": "<p>Мои владения скрывают кучи золота, но нет в моих владенниях ценнее вещи, чем <b>ЖЧСЛФШЩХФ</b>. Предмет настолько ценен, что я вынужден скрывать даже его название. Ключ к названию хранят печати</p><p>Чем-то мы похожи с людьми, хех. Они тоже бывают безумны в своем стремлении скрыть всё ото всех.</p> Один из моих давних предков знал человека. Человек тот был особенный, не чета другим. Он имел пытливый ум изобретателя и прославился, как император. Тот человек изобрел простой, но легендарный шифр для переписки со своими генералами. Его звали Гай Юлий.",
+      "quest_answers": ["Аркенстон"],
+      "quest_wrong_message": "Такого сокровища мои владения не встречали",
+      "quest_hints": ["Ключ к Шифру в печатах", "Главное - правильный шаг"],
+      "quest_image": "arkenston",
+      "next_step_id": 3
     },
     {
       "id": 3,
-      "quest_title": "title3",
-      "quest_text": "quest3",
-      "quest_answer": "answer3",
+      "quest_title": "Печать Познания",
+      "quest_subtitle": "Сила рунических фолиантов",
+      "quest_text": "",
+      "quest_answers": ["Луна"],
+      "quest_wrong_message": "Язык рун слишком сложен для людей и эльфов!",
+      "quest_hints": ["Свет открывает врата лабиринта в лаборатории", "Ее Имя откроет печать"],
+      "quest_image": "quest_image_stub",
+      "next_step_id": 4
+    },
+    {
+      "id": 4,
+      "quest_title": "Печать Совершенства",
+      "quest_subtitle": "",
+      "quest_text": "Хоть Цезарь и научил людей шифроваться друг от друга, старик Виженер знал куда больший толк. <p></p> А я знаю толк в азартных играх в тавернах с пьянчугами! Ключ в игре, моей любимой",
+      "quest_answers": ["answer3"],
       "quest_wrong_message": "wrong3",
       "quest_hints": ["hint3-1", "hint3-2", "hint3-3"],
-      "quest_image": "quest_image_stub"
+      "quest_image": "quest_image_stub",
+      "next_step_id": 5
+    },
+    {
+      "id": 5,
+      "quest_title": "Печать Борьбы",
+      "quest_subtitle": "",
+      "quest_text": "quest3",
+      "quest_answers": ["answer3"],
+      "quest_wrong_message": "wrong3",
+      "quest_hints": ["hint3-1", "hint3-2", "hint3-3"],
+      "quest_image": "quest_image_stub",
+      "next_step_id": 6
+    },
+    {
+      "id": 6,
+      "quest_title": "Печать Победы",
+      "quest_subtitle": "",
+      "quest_text": "quest3",
+      "quest_answers": ["answer3"],
+      "quest_wrong_message": "wrong3",
+      "quest_hints": ["hint3-1", "hint3-2", "hint3-3"],
+      "quest_image": "quest_image_stub",
+      "next_step_id": 7
+    },
+    {
+      "id": 7,
+      "quest_title": "Печать Молчания",
+      "quest_subtitle": "Главная тайна",
+      "quest_text": "Шесть ключей сломили шесть печатей в правильном порядке. Шесть ключей - есть ключ к седьмой. Моя главная тайна",
+      "quest_answers": ["answer3"],
+      "quest_wrong_message": "wrong3",
+      "quest_hints": ["hint3-1", "hint3-2", "hint3-3"],
+      "quest_image": "quest_image_stub",
+      "next_step_id": 1
     }
   ]
 }

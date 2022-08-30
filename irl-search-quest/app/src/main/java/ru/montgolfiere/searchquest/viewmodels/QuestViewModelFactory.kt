@@ -2,10 +2,10 @@ package ru.montgolfiere.searchquest.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.montgolfiere.searchquest.config.QuestConfig
+import ru.montgolfiere.searchquest.interact.QuestInteractor
 
 class QuestViewModelFactory(
-    private val questConfig: QuestConfig
+    private val questInteractor: QuestInteractor
 ): ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when(modelClass) {
@@ -14,5 +14,5 @@ class QuestViewModelFactory(
         }
     }
 
-    private fun createQuestViewModel(): QuestViewModel = QuestViewModel(questConfig)
+    private fun createQuestViewModel(): QuestViewModel = QuestViewModel(questInteractor)
 }
