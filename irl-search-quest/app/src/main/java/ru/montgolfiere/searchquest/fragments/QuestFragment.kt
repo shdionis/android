@@ -26,10 +26,11 @@ import ru.montgolfiere.searchquest.viewmodels.QuestViewModelFactory
 import ru.montgolfiere.searchquest.viewmodels.state.DataState
 import ru.montgolfiere.searchquest.viewmodels.state.ErrorState
 import ru.montgolfiere.searchquest.viewmodels.state.LoadingState
+import ru.montgolfiere.searchquest.views.ToolbarView
 
 class QuestFragment(questViewModelFactory: QuestViewModelFactory) : Fragment() {
     private val viewModel: QuestViewModel by activityViewModels { questViewModelFactory }
-    lateinit var questTitleView: TextView
+    lateinit var toolbar: ToolbarView
     lateinit var questTextView: TextView
     lateinit var questWrongAnswerView: TextView
     lateinit var questAnswerView: EditText
@@ -48,7 +49,7 @@ class QuestFragment(questViewModelFactory: QuestViewModelFactory) : Fragment() {
         questTextView = root.findViewById(R.id.question_text)
         questAnswerView = root.findViewById(R.id.question_answer)
         questImageView = root.findViewById(R.id.question_image)
-        questTitleView = root.findViewById(R.id.question_title)
+        toolbar = root.findViewById(R.id.quest_toolbar)
         questWrongAnswerView = root.findViewById(R.id.question_answer_wrong)
         questButton = root.findViewById(R.id.question_button)
         questStubView = root.findViewById(R.id.quest_stub_view)
@@ -119,7 +120,7 @@ class QuestFragment(questViewModelFactory: QuestViewModelFactory) : Fragment() {
         questTextView.visibility = View.GONE
         questAnswerView.visibility = View.GONE
         questImageView.visibility = View.GONE
-        questTitleView.visibility = View.GONE
+        toolbar.visibility = View.GONE
         questButton.visibility = View.GONE
         questErrorView.visibility = View.GONE
         questStubView.visibility = View.VISIBLE
@@ -136,12 +137,13 @@ class QuestFragment(questViewModelFactory: QuestViewModelFactory) : Fragment() {
         questTextView.visibility = View.VISIBLE
         questAnswerView.visibility = View.VISIBLE
         questImageView.visibility = View.VISIBLE
-        questTitleView.visibility = View.VISIBLE
+        toolbar.visibility = View.VISIBLE
         questButton.visibility = View.VISIBLE
         questErrorView.visibility = View.GONE
         questStubView.visibility = View.GONE
 
-        questTitleView.text = questStep.title
+        toolbar.setTitle(questStep.title)
+        toolbar.setSubTitle(questStep.subtitle)
         questTextView.text = Html.fromHtml(requireContext().getString(R.string.quest_text_template, questStep.text))
         questWrongAnswerView.text = questStep.wrongMessage
         val questStepImage = getQuestStepImage(questStep)
