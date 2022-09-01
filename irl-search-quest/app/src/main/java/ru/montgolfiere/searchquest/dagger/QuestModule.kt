@@ -42,8 +42,9 @@ class QuestModule {
 
     @Provides
     fun provideQuestRepository(
-        context: Context
+        context: Context,
+        config: QuestConfig,
     ): QuestRepository {
-        return QuestRepository(context)
+        return QuestRepository(context, config)
     }
 }

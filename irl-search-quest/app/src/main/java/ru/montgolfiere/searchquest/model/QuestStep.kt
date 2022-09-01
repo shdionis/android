@@ -12,4 +12,7 @@ data class QuestStep(
     @SerializedName("quest_wrong_message") val wrongMessage: String,
     @SerializedName("quest_hints") val hints: List<String>,
     @SerializedName("next_step_id") val nextStepId: Int? = null,
+    @SerializedName("last_hint_usage_time") var lastHintUsageTime: Long = 0L,
+    @SerializedName("last_hint_usage_item") var lastHintUsageItem: Int = -1,
+    @SerializedName("quest_is_done") var isDone: Boolean = false,
 )

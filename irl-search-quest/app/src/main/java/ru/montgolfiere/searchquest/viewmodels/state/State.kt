@@ -2,27 +2,14 @@ package ru.montgolfiere.searchquest.viewmodels.state
 
 import ru.montgolfiere.searchquest.model.QuestStep
 
-sealed class State(
-    val status: StateStatus
-)
+sealed class State
 
-class LoadingState: State(StateStatus.LOADING)
+object ErrorState : State()
 
-class FinishState: State(StateStatus.OK)
+object LoadingState : State()
+
+object FinishState : State()
 
 class DataState(
     val data: QuestStep
-) : State(StateStatus.OK)
-
-class ErrorState(
-    val cause: ErrorCauses
-) : State(StateStatus.ERROR)
-
-enum class ErrorCauses {
-    NOT_FOUND,
-    PARSE_ERROR
-}
-
-enum class StateStatus {
-    OK, ERROR, LOADING
-}
+) : State()

@@ -25,20 +25,31 @@ import ru.montgolfiere.searchquest.viewmodels.QuestViewModel
 import ru.montgolfiere.searchquest.viewmodels.QuestViewModelFactory
 import ru.montgolfiere.searchquest.viewmodels.state.DataState
 import ru.montgolfiere.searchquest.viewmodels.state.ErrorState
+import ru.montgolfiere.searchquest.viewmodels.state.FinishState
 import ru.montgolfiere.searchquest.viewmodels.state.LoadingState
 import ru.montgolfiere.searchquest.views.ToolbarView
 
 class QuestFragment(questViewModelFactory: QuestViewModelFactory) : Fragment() {
     private val viewModel: QuestViewModel by activityViewModels { questViewModelFactory }
-    lateinit var toolbar: ToolbarView
-    lateinit var questTextView: TextView
-    lateinit var questWrongAnswerView: TextView
-    lateinit var questAnswerView: EditText
-    lateinit var questImageView: ImageView
-    lateinit var questButton: Button
-    lateinit var questErrorView: FrameLayout
-    lateinit var questStubView: FrameLayout
-    lateinit var questStubImage: ImageView
+    private lateinit var toolbar: ToolbarView
+    private lateinit var questTextView: TextView
+    private lateinit var questWrongAnswerView: TextView
+    private lateinit var questAnswerView: EditText
+    private lateinit var questImageView: ImageView
+    private lateinit var questButton: Button
+    private lateinit var questErrorView: FrameLayout
+    private lateinit var questStubView: FrameLayout
+    private lateinit var questStubImage: ImageView
+    private val wrongAnswerAnimationListener = object : Animation.AnimationListener {
+        override fun onAnimationStart(animation: Animation?) {}
+
+        override fun onAnimationEnd(animation: Animation?) {
+            questWrongAnswerView.visibility = View.INVISIBLE
+        }
+
+        override fun onAnimationRepeat(animation: Animation?) {}
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +57,12 @@ class QuestFragment(questViewModelFactory: QuestViewModelFactory) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_main, container, false)
+        initViews(root)
+        initListeners()
+        return root
+    }
+
+    private fun initViews(root: View) {
         questTextView = root.findViewById(R.id.question_text)
         questAnswerView = root.findViewById(R.id.question_answer)
         questImageView = root.findViewById(R.id.question_image)
@@ -55,40 +72,24 @@ class QuestFragment(questViewModelFactory: QuestViewModelFactory) : Fragment() {
         questStubView = root.findViewById(R.id.quest_stub_view)
         questStubImage = root.findViewById(R.id.quest_stub_image)
         questErrorView = root.findViewById(R.id.quest_error_view)
-        fetchData()
+    }
+
+    private fun initListeners() {
         questButton.setOnClickListener {
             lifecycleScope.launch(Dispatchers.Main) {
-                val correctAnswer = viewModel.checkAnswer(questAnswerView.text.toString())
-                if (correctAnswer) {
-                    stub()
-                    Log.d(TAG, "correct answer")
-                    delay(1000)
-                    viewModel.goToNextStep()
-                } else {
+                val isSuccess = viewModel.tryAnswer(questAnswerView.text.toString())
+                if (!isSuccess) {
                     Log.d(TAG, "wrong answer")
                     questWrongAnswerView.visibility = View.VISIBLE
                     delay(1000)
                     val animation =
                         AnimationUtils.loadAnimation(requireContext(), R.anim.disapear_animation)
-                    animation.setAnimationListener(object : Animation.AnimationListener {
-                        override fun onAnimationStart(animation: Animation?) {}
-
-                        override fun onAnimationEnd(animation: Animation?) {
-                            questWrongAnswerView.visibility = View.INVISIBLE
-                        }
-
-                        override fun onAnimationRepeat(animation: Animation?) {}
-
-                    })
+                    animation.setAnimationListener(wrongAnswerAnimationListener)
                     questWrongAnswerView.startAnimation(animation)
-
                 }
             }
         }
-        return root
-    }
 
-    private fun fetchData() {
         viewModel.getActualQuestStep().observe(viewLifecycleOwner) { state ->
             when (state) {
                 is DataState -> {
@@ -97,14 +98,14 @@ class QuestFragment(questViewModelFactory: QuestViewModelFactory) : Fragment() {
                     bind(questStep)
                 }
                 is LoadingState -> {
-                    Log.d(TAG, "LoadingState stub")
+                    Log.d(TAG, "LoadingState")
                     stub()
                 }
                 is ErrorState -> {
-                    Log.d(TAG, "ErrorState cause: ${state.cause}")
+                    Log.d(TAG, "ErrorState")
                     showError()
                 }
-                else -> {}
+                is FinishState -> {}
             }
         }
     }
