@@ -17,7 +17,7 @@ class QuestRepository(
     private val context: Context,
     private val config: QuestConfig,
 ) {
-    private val questData: Quest by lazy {
+    val questData: Quest by lazy {
         try {
             val currentStep = config.currentStepId
             val questStepsStream = if (currentStep != QuestConfig.INVALID_STEP_ID) {

@@ -3,10 +3,12 @@ package ru.montgolfiere.searchquest.interact
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.montgolfiere.searchquest.config.QuestConfig
+import ru.montgolfiere.searchquest.model.Quest
 import ru.montgolfiere.searchquest.model.QuestStep
 import ru.montgolfiere.searchquest.model.repository.QuestRepository
 import ru.montgolfiere.searchquest.viewmodels.state.DataState
@@ -19,31 +21,39 @@ class QuestInteractor(
     private val repository: QuestRepository,
     private val config: QuestConfig
 ) {
-    private val questDataFlow: MutableStateFlow<State> = MutableStateFlow(LoadingState)
+    private val internalQuestStepStateFlow: MutableStateFlow<State> = MutableStateFlow(LoadingState)
+    private val internalQuestDataFlow: MutableStateFlow<Quest> = MutableStateFlow(repository.questData)
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    suspend fun fetchActualQuestStepData(): StateFlow<State> {
+    val questStepFlow: Flow<State> = internalQuestStepStateFlow
+    val questFlow: Flow<Quest> = internalQuestDataFlow
+
+    fun fetchActualQuestStepData(): StateFlow<State> {
         coroutineScope.launch {
             val step = repository.getQuestStepById(config.currentStepId)
             if (step == null) {
-                questDataFlow.emit(ErrorState)
+                internalQuestStepStateFlow.emit(ErrorState)
             } else {
                 fetchActualQuestStepDataInternal(step.id)
             }
         }
-        return questDataFlow
+        return internalQuestStepStateFlow
     }
 
-    private suspend fun fetchActualQuestStepDataInternal(id: Int) {
+    fun fetchStepById(id: Int) {
         coroutineScope.launch {
-            config.currentStepId = id
             val step = repository.getQuestStepById(id)
             if (step == null) {
-                questDataFlow.emit(ErrorState)
+                internalQuestStepStateFlow.emit(ErrorState)
             } else {
-                questDataFlow.emit(DataState(step))
+                internalQuestStepStateFlow.emit(DataState(step))
             }
         }
+    }
+
+    private fun fetchActualQuestStepDataInternal(id: Int) {
+        config.currentStepId = id
+        fetchStepById(id)
     }
 
     fun checkAnswer(currentStep: QuestStep, answer: String) =
@@ -59,7 +69,7 @@ class QuestInteractor(
             if (nextStepId != null) {
                 fetchActualQuestStepDataInternal(nextStepId)
             } else {
-                questDataFlow.emit(FinishState)
+                internalQuestStepStateFlow.emit(FinishState)
             }
         }
     }

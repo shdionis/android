@@ -3,6 +3,7 @@ package ru.montgolfiere.searchquest.dagger
 import dagger.Component
 import ru.montgolfiere.searchquest.ContainerActivity
 import ru.montgolfiere.searchquest.config.QuestConfig
+import ru.montgolfiere.searchquest.viewmodels.QuestViewModelFactory
 import javax.inject.Singleton
 
 @Component(modules = [
@@ -12,6 +13,8 @@ import javax.inject.Singleton
 @Singleton
 interface ApplicationComponent {
     fun getQuestConfig(): QuestConfig
+
+    fun getQuestViewModelFactory(): QuestViewModelFactory
 
     fun inject(containerActivity: ContainerActivity)
 }

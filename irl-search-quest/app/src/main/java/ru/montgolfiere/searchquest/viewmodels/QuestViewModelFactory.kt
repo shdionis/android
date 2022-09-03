@@ -10,9 +10,12 @@ class QuestViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when(modelClass) {
             QuestViewModel::class.java -> createQuestViewModel() as T
+            StateModel::class.java -> createStateModel() as T
             else -> super.create(modelClass)
         }
     }
+
+    private fun createStateModel(): StateModel = StateModel()
 
     private fun createQuestViewModel(): QuestViewModel = QuestViewModel(questInteractor)
 }

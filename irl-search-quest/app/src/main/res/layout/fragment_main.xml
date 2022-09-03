@@ -26,6 +26,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/quest_content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -37,7 +38,7 @@
             android:paddingBottom="24dp">
 
             <TextView
-                android:id="@+id/question_text"
+                android:id="@+id/quest_text"
                 style="@style/QuestAppText.Secondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,18 +50,18 @@
                 tools:text="Main Fragment" />
 
             <FrameLayout
-                android:id="@+id/question_image_container"
+                android:id="@+id/quest_image_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@id/question_answer_wrong"
+                app:layout_constraintBottom_toTopOf="@id/bottom_views_container"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/question_text">
+                app:layout_constraintTop_toBottomOf="@id/quest_text">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/question_image"
+                    android:id="@+id/quest_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
@@ -68,60 +69,108 @@
                     app:srcCompat="@drawable/quest_image_stub" />
             </FrameLayout>
 
-
-            <TextView
-                android:id="@+id/question_answer_wrong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/accuratist_regular"
-                android:textColor="#E53935"
-                android:textSize="16sp"
-                android:textStyle="bold|italic"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/question_answer_container"
-                app:layout_constraintStart_toStartOf="@id/question_answer_container"
-                tools:text="ОШИБКА"
-                tools:visibility="visible" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/question_answer_container"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="@color/primary_color_30"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:layout_constraintBottom_toTopOf="@+id/question_button"
-                app:layout_constraintEnd_toEndOf="@id/question_button"
-                app:layout_constraintStart_toStartOf="@id/question_button">
-
-                <EditText
-                    android:id="@+id/question_answer"
-                    style="@style/QuestAppText.Tertiary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/transparent"
-                    android:hint="@string/write_answer"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingHorizontal="8dp"
-                    android:textColorHint="#Afffffff" />
-            </androidx.cardview.widget.CardView>
-
-            <Button
-                android:id="@+id/question_button"
+            <FrameLayout
+                android:id="@+id/bottom_views_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/accuratist_regular"
-                android:text="@string/check_answer"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/step_done_views_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:paddingVertical="8dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:cardBackgroundColor="@color/primary_color_30"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp"
+                        app:layout_constraintBottom_toTopOf="@+id/quest_button"
+                        app:layout_constraintEnd_toEndOf="@id/quest_button"
+                        app:layout_constraintStart_toStartOf="@id/quest_button">
+
+                        <TextView
+                            android:id="@+id/answer"
+                            style="@style/QuestAppText.Secondary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:textAlignment="center"
+                            android:textStyle="italic"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Бла бла бла" />
+                    </androidx.cardview.widget.CardView>
+                    <Button
+                        android:id="@+id/quest_next_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/accuratist_regular"
+                        android:text="@string/next_seal_button_text"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/answer_views_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    tools:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/quest_answer_wrong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/accuratist_regular"
+                        android:textColor="#E53935"
+                        android:textSize="16sp"
+                        android:textStyle="bold|italic"
+                        android:visibility="invisible"
+                        tools:text="ОШИБКА"
+                        tools:visibility="visible" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/quest_answer_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        app:cardBackgroundColor="@color/primary_color_30"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp">
+
+                        <EditText
+                            android:id="@+id/quest_answer"
+                            style="@style/QuestAppText.Tertiary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:hint="@string/write_answer"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:paddingHorizontal="8dp"
+                            android:textColorHint="#Afffffff" />
+                    </androidx.cardview.widget.CardView>
+
+                    <Button
+                        android:id="@+id/quest_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/accuratist_regular"
+                        android:text="@string/quest_check_answer_button_text"/>
+                </LinearLayout>
+            </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
 
     <FrameLayout
         android:id="@+id/quest_stub_view"
