@@ -17,6 +17,6 @@ class QuestConfig(context: Context) {
     companion object {
         const val INVALID_STEP_ID = -1
         private const val CURRENT_STEP_ID_PREF = "current_step_id"
-        private val HINT_COOL_DOWN_THRESHOLD = TimeUnit.MINUTES.toMillis(15)
+        val HINT_COOL_DOWN_THRESHOLD = TimeUnit.MINUTES.toMillis(5)
     }
 }

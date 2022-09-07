@@ -11,4 +11,5 @@
     <string name="next_seal_button_text">Следующая печать</string>
     <string name="some_error">Что то пошло не так…</string>
     <string name="quest_text_template"><![CDATA[%s]]></string>
+    <string name="open_hint_text">Открыть подсказку</string>
 </resources>

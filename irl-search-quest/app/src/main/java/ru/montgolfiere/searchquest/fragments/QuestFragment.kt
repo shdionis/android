@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
@@ -62,11 +63,17 @@ class QuestFragment(
     private lateinit var hintFab: FloatingActionButton
     private lateinit var bottomSheet: BottomSheetView
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<BottomSheetView>
-    private val fabAppearTimer = object: CountDownTimer(2000, 1000) {
-        override fun onTick(millisUntilFinished: Long) { }
+    private lateinit var appBar: AppBarLayout
+    private val fabAppearTimer = object : CountDownTimer(2000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {}
 
         override fun onFinish() {
-            hintFab.startAnimation(AnimationUtils.loadAnimation(context, R.anim.appear_scale_animation))
+            hintFab.startAnimation(
+                AnimationUtils.loadAnimation(
+                    context,
+                    R.anim.appear_scale_animation
+                )
+            )
             hintFab.visibility = View.VISIBLE
         }
     }
@@ -115,6 +122,8 @@ class QuestFragment(
         questTryAnswerButton = root.findViewById(R.id.quest_button)
         questIsDoneViewGroup = root.findViewById(R.id.step_done_views_container)
         questAnswerViewGroup = root.findViewById(R.id.answer_views_container)
+        questAnswerText = root.findViewById(R.id.answer)
+        appBar = root.findViewById(R.id.app_bar)
         questContentView = root.findViewById(R.id.quest_content_view)
         questStubView = root.findViewById(R.id.quest_stub_view)
         questStubImage = root.findViewById(R.id.quest_stub_image)
@@ -216,7 +225,8 @@ class QuestFragment(
 
         toolbar.setTitle(questStep.title)
         toolbar.setSubTitle(questStep.subtitle)
-        questTextView.text = Html.fromHtml(requireContext().getString(R.string.quest_text_template, questStep.text))
+        questTextView.text =
+            Html.fromHtml(requireContext().getString(R.string.quest_text_template, questStep.text))
         questWrongAnswerView.text = questStep.wrongMessage
         val questStepImage = getQuestStepImage(questStep)
         if (questStepImage == null) {
@@ -226,7 +236,8 @@ class QuestFragment(
             questImageView.setImageResource(questStepImage)
         }
         questAnswerView.text.clear()
-        questContentView.smoothScrollTo(0,0)
+        questContentView.scrollTo(0, 0)
+        appBar.setExpanded(true, true)
         if (questStep.isDone) {
             questIsDoneViewGroup.visibility = View.VISIBLE
             questAnswerViewGroup.visibility = View.GONE
