@@ -8,10 +8,12 @@ import ru.montgolfiere.searchquest.fragments.QuestFragmentFactory
 import ru.montgolfiere.searchquest.interact.QuestInteractor
 import ru.montgolfiere.searchquest.model.repository.QuestRepository
 import ru.montgolfiere.searchquest.viewmodels.QuestViewModelFactory
+import javax.inject.Singleton
 
 @Module
 class QuestModule {
     @Provides
+    @Singleton
     fun provideQuestFragmentFactory(
         questViewModelFactory: QuestViewModelFactory
     ): QuestFragmentFactory {
@@ -19,6 +21,7 @@ class QuestModule {
     }
 
     @Provides
+    @Singleton
     fun provideQuestViewModelFactory(
         questInteractor: QuestInteractor,
     ): QuestViewModelFactory {
@@ -26,6 +29,7 @@ class QuestModule {
     }
 
     @Provides
+    @Singleton
     fun provideQuestConfig(
         context: Context
     ): QuestConfig {
@@ -33,6 +37,7 @@ class QuestModule {
     }
 
     @Provides
+    @Singleton
     fun provideQuestInteractor(
         repository: QuestRepository,
         config: QuestConfig
@@ -41,6 +46,7 @@ class QuestModule {
     }
 
     @Provides
+    @Singleton
     fun provideQuestRepository(
         context: Context,
         config: QuestConfig,

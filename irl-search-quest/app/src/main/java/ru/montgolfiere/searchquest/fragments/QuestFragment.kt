@@ -1,12 +1,12 @@
 package ru.montgolfiere.searchquest.fragments
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.EditText
@@ -19,10 +19,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.montgolfiere.searchquest.R
+import ru.montgolfiere.searchquest.animations.CustomAnimationListener
 import ru.montgolfiere.searchquest.model.QuestStep
 import ru.montgolfiere.searchquest.viewmodels.QuestViewModel
 import ru.montgolfiere.searchquest.viewmodels.QuestViewModelFactory
@@ -34,6 +37,7 @@ import ru.montgolfiere.searchquest.viewmodels.state.LoadingState
 import ru.montgolfiere.searchquest.viewmodels.state.State
 import ru.montgolfiere.searchquest.viewmodels.state.screen.HistoryState
 import ru.montgolfiere.searchquest.viewmodels.state.screen.ViewState
+import ru.montgolfiere.searchquest.views.BottomSheetView
 import ru.montgolfiere.searchquest.views.ToolbarView
 
 class QuestFragment(
@@ -55,17 +59,23 @@ class QuestFragment(
     private lateinit var questIsDoneViewGroup: LinearLayout
     private lateinit var questStubImage: ImageView
     private lateinit var questAnswerText: TextView
+    private lateinit var hintFab: FloatingActionButton
+    private lateinit var bottomSheet: BottomSheetView
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<BottomSheetView>
+    private val fabAppearTimer = object: CountDownTimer(2000, 1000) {
+        override fun onTick(millisUntilFinished: Long) { }
 
-    private val wrongAnswerAnimationListener = object : Animation.AnimationListener {
-        override fun onAnimationStart(animation: Animation?) {}
+        override fun onFinish() {
+            hintFab.startAnimation(AnimationUtils.loadAnimation(context, R.anim.appear_scale_animation))
+            hintFab.visibility = View.VISIBLE
+        }
+    }
 
-        override fun onAnimationEnd(animation: Animation?) {
+    private val wrongAnswerAnimationListener = CustomAnimationListener(
+        endCallback = {
             questWrongAnswerView.visibility = View.INVISIBLE
         }
-
-        override fun onAnimationRepeat(animation: Animation?) {}
-
-    }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -110,7 +120,10 @@ class QuestFragment(
         questStubImage = root.findViewById(R.id.quest_stub_image)
         questErrorView = root.findViewById(R.id.quest_error_view)
         questNextButton = root.findViewById(R.id.quest_next_button)
-
+        hintFab = root.findViewById(R.id.quest_hint_fab)
+        bottomSheet = root.findViewById(R.id.bottom_sheet)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun initListeners() {
@@ -120,11 +133,14 @@ class QuestFragment(
                 if (!isSuccess) {
                     Log.d(TAG, "wrong answer")
                     questWrongAnswerView.visibility = View.VISIBLE
+                    if (hintFab.visibility != View.VISIBLE) {
+                        fabAppearTimer.start()
+                    }
                     delay(1000)
                     val animation =
                         AnimationUtils.loadAnimation(
                             requireContext(),
-                            R.anim.disapear_animation
+                            R.anim.disappear_animation
                         )
                     animation.setAnimationListener(wrongAnswerAnimationListener)
                     questWrongAnswerView.startAnimation(animation)
@@ -136,6 +152,19 @@ class QuestFragment(
         }
         viewModel.questStepLiveData.observe(viewLifecycleOwner) { dataState ->
             handleState(dataState)
+        }
+        hintFab.setOnClickListener {
+            when (bottomSheetBehavior.state) {
+                BottomSheetBehavior.STATE_HIDDEN -> {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                }
+                BottomSheetBehavior.STATE_COLLAPSED -> {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                }
+                BottomSheetBehavior.STATE_EXPANDED -> {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                }
+            }
         }
     }
 
@@ -206,7 +235,7 @@ class QuestFragment(
             questIsDoneViewGroup.visibility = View.GONE
             questAnswerViewGroup.visibility = View.VISIBLE
         }
-
+        bottomSheet.bind(questStep)
     }
 
     private fun getQuestStepImage(questStep: QuestStep): Int? {

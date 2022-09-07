@@ -73,4 +73,10 @@ class QuestInteractor(
             }
         }
     }
+
+    fun storeQuestModel() {
+        coroutineScope.launch {
+            repository.storeQuestModel()
+        }
+    }
 }
