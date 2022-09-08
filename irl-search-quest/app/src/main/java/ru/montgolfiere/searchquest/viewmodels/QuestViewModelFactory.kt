@@ -15,7 +15,7 @@ class QuestViewModelFactory(
         }
     }
 
-    private fun createStateModel(): StateModel = StateModel()
+    private fun createStateModel(): StateModel = StateModel(questInteractor)
 
     private fun createQuestViewModel(): QuestViewModel = QuestViewModel(questInteractor)
 }

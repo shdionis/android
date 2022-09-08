@@ -69,6 +69,7 @@ class QuestInteractor(
             if (nextStepId != null) {
                 fetchActualQuestStepDataInternal(nextStepId)
             } else {
+                config.questIsFinish = true
                 internalQuestStepStateFlow.emit(FinishState)
             }
         }
@@ -79,4 +80,6 @@ class QuestInteractor(
             repository.storeQuestModel()
         }
     }
+
+    fun isFinish(): Boolean = config.questIsFinish
 }

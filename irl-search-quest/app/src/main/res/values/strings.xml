@@ -12,4 +12,5 @@
     <string name="some_error">Что то пошло не так…</string>
     <string name="quest_text_template"><![CDATA[%s]]></string>
     <string name="open_hint_text">Открыть подсказку</string>
+    <string name="end_quest_button">Завершить</string>
 </resources>

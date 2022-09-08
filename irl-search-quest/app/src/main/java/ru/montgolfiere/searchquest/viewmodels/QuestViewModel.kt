@@ -10,6 +10,7 @@ import ru.montgolfiere.searchquest.model.Quest
 import ru.montgolfiere.searchquest.model.QuestStep
 import ru.montgolfiere.searchquest.viewmodels.state.DataState
 import ru.montgolfiere.searchquest.viewmodels.state.ErrorState
+import ru.montgolfiere.searchquest.viewmodels.state.FinishState
 import ru.montgolfiere.searchquest.viewmodels.state.LoadingState
 import ru.montgolfiere.searchquest.viewmodels.state.State
 
@@ -62,7 +63,14 @@ class QuestViewModel(
     }
 
     fun fetchNextStep() {
-        currentStep?.nextStepId?.let { questInteractor.fetchStepById(it) }
+        val nextStepId = currentStep?.nextStepId
+        if (nextStepId == null) {
+            if (questInteractor.isFinish()) {
+                internalQuestStepLiveData.value = FinishState
+            }
+            return
+        }
+        questInteractor.fetchStepById(nextStepId)
     }
 
     fun fetchActualStep() {

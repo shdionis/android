@@ -36,6 +36,7 @@ import ru.montgolfiere.searchquest.viewmodels.state.ErrorState
 import ru.montgolfiere.searchquest.viewmodels.state.FinishState
 import ru.montgolfiere.searchquest.viewmodels.state.LoadingState
 import ru.montgolfiere.searchquest.viewmodels.state.State
+import ru.montgolfiere.searchquest.viewmodels.state.screen.FinishScreenState
 import ru.montgolfiere.searchquest.viewmodels.state.screen.HistoryState
 import ru.montgolfiere.searchquest.viewmodels.state.screen.ViewState
 import ru.montgolfiere.searchquest.views.BottomSheetView
@@ -192,7 +193,9 @@ class QuestFragment(
                 Log.d(TAG, "ErrorState")
                 showError()
             }
-            is FinishState -> {}
+            is FinishState -> {
+                stateModel.route(FinishScreenState)
+            }
         }
     }
 
@@ -242,11 +245,19 @@ class QuestFragment(
             questIsDoneViewGroup.visibility = View.VISIBLE
             questAnswerViewGroup.visibility = View.GONE
             questAnswerText.text = questStep.answersList.firstOrNull()
+            questNextButton.text = requireContext().getString(
+                if (questStep.nextStepId == null) {
+                    R.string.end_quest_button
+                } else {
+                    R.string.next_seal_button_text
+                }
+            )
         } else {
             questIsDoneViewGroup.visibility = View.GONE
             questAnswerViewGroup.visibility = View.VISIBLE
         }
         bottomSheet.bind(questStep)
+
     }
 
     private fun getQuestStepImage(questStep: QuestStep): Int? {

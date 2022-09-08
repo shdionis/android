@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import ru.montgolfiere.searchquest.fragments.QuestFragment
 import ru.montgolfiere.searchquest.fragments.QuestFragmentFactory
 import ru.montgolfiere.searchquest.viewmodels.StateModel
+import ru.montgolfiere.searchquest.viewmodels.state.screen.FinishScreenState
 import ru.montgolfiere.searchquest.viewmodels.state.screen.HistoryState
 import ru.montgolfiere.searchquest.viewmodels.state.screen.MainState
-import ru.montgolfiere.searchquest.viewmodels.state.screen.ScreenState
 import ru.montgolfiere.searchquest.viewmodels.state.screen.ViewState
 import javax.inject.Inject
 
@@ -46,6 +46,9 @@ class ContainerActivity : AppCompatActivity() {
                 is HistoryState -> {
                     isNeedToBackStack = true
                     questFragmentFactory.createQuestHistoryFragment()
+                }
+                is FinishScreenState -> {
+                    questFragmentFactory.createFinishFragment()
                 }
             }
             val transaction = supportFragmentManager.beginTransaction().replace(

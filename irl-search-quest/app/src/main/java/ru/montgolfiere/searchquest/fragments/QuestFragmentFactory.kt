@@ -11,6 +11,7 @@ class QuestFragmentFactory(
         return when (className) {
             QuestFragment::class.java.name -> createQuestFragment()
             QuestHistoryFragment::class.java.name -> createQuestHistoryFragment()
+            QuestFinishFragment::class.java.name -> createFinishFragment()
             else -> super.instantiate(classLoader, className)
         }
     }
@@ -18,4 +19,6 @@ class QuestFragmentFactory(
     fun createQuestHistoryFragment(): Fragment = QuestHistoryFragment(questViewModelFactory)
 
     fun createQuestFragment(): Fragment = QuestFragment(questViewModelFactory)
+
+    fun createFinishFragment(): Fragment = QuestFinishFragment(questViewModelFactory)
 }

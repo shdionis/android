@@ -7,3 +7,5 @@ object MainState : ScreenState()
 object HistoryState : ScreenState()
 
 class ViewState(val id: Int) : ScreenState()
+
+object FinishScreenState : ScreenState()
