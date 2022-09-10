@@ -67,7 +67,7 @@
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
-                    app:srcCompat="@drawable/quest_image_stub" />
+                    app:srcCompat="@drawable/fenrir" />
             </FrameLayout>
 
             <FrameLayout
