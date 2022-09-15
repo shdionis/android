@@ -8,9 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="wrong_label_text_color">#ff5201</color>
-
     <color name="control_color">#171717</color>
-
-
-
 </resources>

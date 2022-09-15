@@ -83,10 +83,12 @@ class QuestHistoryFragment(questViewModelFactory: QuestViewModelFactory) : Fragm
         private val historyImage: ImageView = view.findViewById(R.id.history_item_img)
         private val title: TextView = view.findViewById(R.id.history_item_title)
         private val subtitle: TextView = view.findViewById(R.id.history_item_subtitle)
+
         fun bind(questStep: QuestStep, listener: View.OnClickListener) {
+            val imageName = if (questStep.isDone) "seal${questStep.id}_broken" else "seal${questStep.id}"
             val imageId =
                 view.context.resources.getIdentifier(
-                    "seal${questStep.id}",
+                    imageName,
                     "drawable",
                     view.context.packageName
                 )
