@@ -65,19 +65,6 @@ class QuestFragment(
     private lateinit var bottomSheet: BottomSheetView
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<BottomSheetView>
     private lateinit var appBar: AppBarLayout
-    private val fabAppearTimer = object : CountDownTimer(2000, 1000) {
-        override fun onTick(millisUntilFinished: Long) {}
-
-        override fun onFinish() {
-            hintFab.startAnimation(
-                AnimationUtils.loadAnimation(
-                    context,
-                    R.anim.appear_scale_animation
-                )
-            )
-            hintFab.visibility = View.VISIBLE
-        }
-    }
 
     private val wrongAnswerAnimationListener = CustomAnimationListener(
         endCallback = {
@@ -143,10 +130,10 @@ class QuestFragment(
                 if (!isSuccess) {
                     Log.d(TAG, "wrong answer")
                     questWrongAnswerView.visibility = View.VISIBLE
-                    if (hintFab.visibility != View.VISIBLE) {
-                        fabAppearTimer.start()
-                    }
                     delay(1000)
+                    if (!hintFab.isShown) {
+                        hintFab.show()
+                    }
                     val animation =
                         AnimationUtils.loadAnimation(
                             requireContext(),
@@ -217,6 +204,8 @@ class QuestFragment(
                 R.anim.infinity_rotate_animation
             )
         )
+        hintFab.visibility = View.INVISIBLE
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun bind(questStep: QuestStep) {

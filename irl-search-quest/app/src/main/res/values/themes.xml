@@ -3,8 +3,9 @@
     <style name="Theme.Irlsearchquest" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimaryVariant">@color/primary_color_variant</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorControlNormal">@color/control_color</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondary_color</item>
         <item name="colorSecondaryVariant">@color/secondary_color_variant</item>

@@ -132,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:fontFamily="@font/accuratist_regular"
-                        android:textColor="#E53935"
+                        android:textColor="@color/wrong_label_text_color"
                         android:textSize="16sp"
                         android:textStyle="bold|italic"
                         android:visibility="invisible"
@@ -179,8 +179,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         app:layout_anchorGravity="top|end"
+        android:src="@drawable/ic_help_24"
+        app:hideMotionSpec="@anim/disappear_animation"
+        app:layout_anchor="@+id/bottom_sheet"
+        app:maxImageSize="44dp"
         android:visibility="invisible"
-        app:layout_anchor="@+id/bottom_sheet"/>
+        app:showMotionSpec="@anim/appear_scale_animation"
+        tools:visibility="visible" />
 
     <include layout="@layout/loading_view" />
 
