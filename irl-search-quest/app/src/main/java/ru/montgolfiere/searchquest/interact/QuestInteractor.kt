@@ -8,45 +8,45 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.montgolfiere.searchquest.config.QuestConfig
+import ru.montgolfiere.searchquest.model.DataResponseCode
 import ru.montgolfiere.searchquest.model.Quest
 import ru.montgolfiere.searchquest.model.QuestStep
+import ru.montgolfiere.searchquest.model.QuestStepWrapper
 import ru.montgolfiere.searchquest.model.repository.QuestRepository
-import ru.montgolfiere.searchquest.viewmodels.state.DataState
-import ru.montgolfiere.searchquest.viewmodels.state.ErrorState
-import ru.montgolfiere.searchquest.viewmodels.state.FinishState
-import ru.montgolfiere.searchquest.viewmodels.state.LoadingState
-import ru.montgolfiere.searchquest.viewmodels.state.State
 
 class QuestInteractor(
     private val repository: QuestRepository,
     private val config: QuestConfig
 ) {
-    private val internalQuestStepStateFlow: MutableStateFlow<State> = MutableStateFlow(LoadingState)
-    private val internalQuestDataFlow: MutableStateFlow<Quest> = MutableStateFlow(repository.questData)
+    private val internalQuestStepFlow: MutableStateFlow<QuestStepWrapper> = MutableStateFlow(
+        QuestStepWrapper(null, DataResponseCode.PROCESSING)
+    )
+    private val internalQuestDataFlow: MutableStateFlow<Quest> =
+        MutableStateFlow(repository.questData)
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    val questStepFlow: Flow<State> = internalQuestStepStateFlow
+    val questStepFlow: Flow<QuestStepWrapper> = internalQuestStepFlow
     val questFlow: Flow<Quest> = internalQuestDataFlow
 
-    fun fetchActualQuestStepData(): StateFlow<State> {
+    fun fetchActualQuestStepData(): StateFlow<QuestStepWrapper> {
         coroutineScope.launch {
             val step = repository.getQuestStepById(config.currentStepId)
             if (step == null) {
-                internalQuestStepStateFlow.emit(ErrorState)
+                internalQuestStepFlow.emit(QuestStepWrapper(null, DataResponseCode.NOT_FOUND))
             } else {
                 fetchActualQuestStepDataInternal(step.id)
             }
         }
-        return internalQuestStepStateFlow
+        return internalQuestStepFlow
     }
 
     fun fetchStepById(id: Int) {
         coroutineScope.launch {
             val step = repository.getQuestStepById(id)
             if (step == null) {
-                internalQuestStepStateFlow.emit(ErrorState)
+                internalQuestStepFlow.emit(QuestStepWrapper(null, DataResponseCode.NOT_FOUND))
             } else {
-                internalQuestStepStateFlow.emit(DataState(step))
+                internalQuestStepFlow.emit(QuestStepWrapper(step, DataResponseCode.OK))
             }
         }
     }
@@ -70,7 +70,7 @@ class QuestInteractor(
                 fetchActualQuestStepDataInternal(nextStepId)
             } else {
                 config.questIsFinish = true
-                internalQuestStepStateFlow.emit(FinishState)
+                internalQuestStepFlow.emit(QuestStepWrapper(null, DataResponseCode.OK))
             }
         }
     }

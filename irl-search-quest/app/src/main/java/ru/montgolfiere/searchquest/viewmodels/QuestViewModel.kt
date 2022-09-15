@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.montgolfiere.searchquest.interact.QuestInteractor
+import ru.montgolfiere.searchquest.model.DataResponseCode
 import ru.montgolfiere.searchquest.model.Quest
 import ru.montgolfiere.searchquest.model.QuestStep
 import ru.montgolfiere.searchquest.viewmodels.state.DataState
@@ -27,10 +28,22 @@ class QuestViewModel(
     init {
         viewModelScope.launch {
             questInteractor.questStepFlow.collect {
-                if (it is DataState) {
-                    currentStep = it.data
+                currentStep = it.questStep
+                internalQuestStepLiveData.value = when(it.code) {
+                    DataResponseCode.OK -> {
+                        if (it.questStep != null) {
+                            DataState(it.questStep)
+                        } else {
+                            FinishState
+                        }
+                    }
+                    DataResponseCode.NOT_FOUND -> {
+                        ErrorState
+                    }
+                    DataResponseCode.PROCESSING -> {
+                        LoadingState
+                    }
                 }
-                internalQuestStepLiveData.value = it
             }
         }
         viewModelScope.launch {
