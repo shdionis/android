@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/splash_bg"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -28,16 +29,181 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/finish_seals_margin_horizontal">
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Finish! Вы бесподобны"
-            android:textSize="32dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/quest_finish_seal1_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                android:src="@drawable/seal1"
+                app:layout_constraintBottom_toTopOf="@id/quest_finish_seal7_img"
+                app:layout_constraintStart_toEndOf="@id/quest_finish_seal7_img" />
+
+            <ImageView
+                android:id="@+id/quest_finish_seal2_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                android:src="@drawable/seal2"
+                app:layout_constraintBottom_toTopOf="@id/quest_finish_seal3_img"
+                app:layout_constraintEnd_toStartOf="@id/quest_finish_seal3_img" />
+
+            <ImageView
+                android:id="@+id/quest_finish_seal3_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                android:src="@drawable/seal3"
+                app:layout_constraintBottom_toTopOf="@id/quest_finish_seal4_img"
+                app:layout_constraintStart_toEndOf="@id/quest_finish_seal4_img" />
+
+            <ImageView
+                android:id="@+id/quest_finish_seal4_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                android:src="@drawable/seal4"
+                app:layout_constraintBottom_toTopOf="@id/quest_finish_seal5_img"
+                app:layout_constraintStart_toEndOf="@id/quest_finish_seal5_img" />
+
+            <ImageView
+                android:id="@+id/quest_finish_seal6_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                android:src="@drawable/seal6"
+                app:layout_constraintBottom_toTopOf="@id/quest_finish_seal5_img"
+                app:layout_constraintEnd_toStartOf="@id/quest_finish_seal5_img" />
+
+            <ImageView
+                android:id="@+id/quest_finish_seal7_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                android:src="@drawable/seal7"
+                app:layout_constraintBottom_toTopOf="@id/quest_finish_seal6_img"
+                app:layout_constraintEnd_toStartOf="@id/quest_finish_seal6_img" />
+
+
+            <ImageView
+                android:id="@+id/quest_finish_seal5_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:src="@drawable/seal5"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/quest_finish_seal1_broken_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                android:src="@drawable/seal1_broken"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/quest_finish_seal7_broken_img"
+                app:layout_constraintStart_toEndOf="@id/quest_finish_seal7_broken_img" />
+
+            <ImageView
+                android:id="@+id/quest_finish_seal2_broken_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                android:src="@drawable/seal2_broken"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/quest_finish_seal3_broken_img"
+                app:layout_constraintEnd_toStartOf="@id/quest_finish_seal3_broken_img" />
+
+            <ImageView
+                android:id="@+id/quest_finish_seal3_broken_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                android:src="@drawable/seal3_broken"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/quest_finish_seal4_broken_img"
+                app:layout_constraintStart_toEndOf="@id/quest_finish_seal4_broken_img" />
+
+            <ImageView
+                android:id="@+id/quest_finish_seal4_broken_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                android:src="@drawable/seal4_broken"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/quest_finish_seal5_broken_img"
+                app:layout_constraintStart_toEndOf="@id/quest_finish_seal5_broken_img" />
+
+            <ImageView
+                android:id="@+id/quest_finish_seal6_broken_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                android:src="@drawable/seal6_broken"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/quest_finish_seal5_broken_img"
+                app:layout_constraintEnd_toStartOf="@id/quest_finish_seal5_broken_img" />
+
+            <ImageView
+                android:id="@+id/quest_finish_seal7_broken_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                android:src="@drawable/seal7_broken"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/quest_finish_seal6_broken_img"
+                app:layout_constraintEnd_toStartOf="@id/quest_finish_seal6_broken_img" />
+
+
+            <ImageView
+                android:id="@+id/quest_finish_seal5_broken_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:src="@drawable/seal5_broken"
+                android:visibility="invisible"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/quest_finish_button"
+                android:layout_width="108dp"
+                android:layout_height="108dp"
+                android:layout_marginHorizontal="@dimen/finish_seals_margin_horizontal"
+                android:src="@drawable/splash_img_2"
+                android:layout_marginVertical="@dimen/finish_seals_margin_vertical"
+                app:layout_constraintBottom_toBottomOf="@id/quest_finish_seal6_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/quest_finish_seal1_img"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

@@ -12,13 +12,17 @@ class QuestFragmentFactory(
             QuestFragment::class.java.name -> createQuestFragment()
             QuestHistoryFragment::class.java.name -> createQuestHistoryFragment()
             QuestFinishFragment::class.java.name -> createFinishFragment()
+            QuestFinishImageModalFragment::class.java.name -> createQuestFinishImageModalFragment()
             else -> super.instantiate(classLoader, className)
         }
     }
+
+    fun createQuestFinishImageModalFragment(): QuestFinishImageModalFragment =
+        QuestFinishImageModalFragment()
 
     fun createQuestHistoryFragment(): Fragment = QuestHistoryFragment(questViewModelFactory)
 
     fun createQuestFragment(): Fragment = QuestFragment(questViewModelFactory)
 
-    fun createFinishFragment(): Fragment = QuestFinishFragment(questViewModelFactory)
+    fun createFinishFragment(): Fragment = QuestFinishFragment(questViewModelFactory, this)
 }
