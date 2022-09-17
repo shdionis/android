@@ -86,7 +86,7 @@
                     android:orientation="vertical"
                     android:paddingVertical="8dp">
 
-                    <androidx.cardview.widget.CardView
+                    <FrameLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -109,14 +109,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="Бла бла бла" />
-                    </androidx.cardview.widget.CardView>
-                    <Button
-                        android:id="@+id/quest_next_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/accuratist_regular"
-                        android:text="@string/next_seal_button_text"/>
+                    </FrameLayout>
                 </LinearLayout>
 
                 <LinearLayout

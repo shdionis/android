@@ -75,17 +75,6 @@ class QuestViewModel(
         questInteractor.fetchStepById(id)
     }
 
-    fun fetchNextStep() {
-        val nextStepId = currentStep?.nextStepId
-        if (nextStepId == null) {
-            if (questInteractor.isFinish()) {
-                internalQuestStepLiveData.value = FinishState
-            }
-            return
-        }
-        questInteractor.fetchStepById(nextStepId)
-    }
-
     fun fetchActualStep() {
         questInteractor.fetchActualQuestStepData()
     }

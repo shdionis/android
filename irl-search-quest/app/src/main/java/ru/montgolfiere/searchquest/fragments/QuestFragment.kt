@@ -51,11 +51,10 @@ class QuestFragment(
     private val stateModel: StateModel by activityViewModels { questViewModelFactory }
     private lateinit var toolbar: ToolbarView
     private lateinit var questTextView: TextView
-    private lateinit var questWrongAnswerView: TextView
-    private lateinit var questAnswerView: EditText
+    private lateinit var questWrongAnswerText: TextView
+    private lateinit var questAnswerEditText: EditText
     private lateinit var questImageView: ImageView
     private lateinit var questTryAnswerButton: Button
-    private lateinit var questNextButton: Button
     private lateinit var questErrorView: FrameLayout
     private lateinit var questStepSwitchView: QuestStepSwitchView
     private lateinit var questContentView: NestedScrollView
@@ -69,7 +68,7 @@ class QuestFragment(
 
     private val wrongAnswerAnimationListener = CustomAnimationListener(
         endCallback = {
-            questWrongAnswerView.visibility = View.INVISIBLE
+            questWrongAnswerText.visibility = View.INVISIBLE
         }
     )
 
@@ -104,10 +103,10 @@ class QuestFragment(
 
     private fun initViews(root: View) {
         questTextView = root.findViewById(R.id.quest_text)
-        questAnswerView = root.findViewById(R.id.quest_answer)
+        questAnswerEditText = root.findViewById(R.id.quest_answer)
         questImageView = root.findViewById(R.id.quest_image)
         toolbar = root.findViewById(R.id.quest_toolbar)
-        questWrongAnswerView = root.findViewById(R.id.quest_answer_wrong)
+        questWrongAnswerText = root.findViewById(R.id.quest_answer_wrong)
         questTryAnswerButton = root.findViewById(R.id.quest_button)
         questIsDoneViewGroup = root.findViewById(R.id.step_done_views_container)
         questAnswerViewGroup = root.findViewById(R.id.answer_views_container)
@@ -116,7 +115,6 @@ class QuestFragment(
         questContentView = root.findViewById(R.id.quest_content_view)
         questStepSwitchView = root.findViewById(R.id.quest_stub_view)
         questErrorView = root.findViewById(R.id.quest_error_view)
-        questNextButton = root.findViewById(R.id.quest_next_button)
         hintFab = root.findViewById(R.id.quest_hint_fab)
         bottomSheet = root.findViewById(R.id.bottom_sheet)
         bottomSheet.viewModel = viewModel
@@ -125,12 +123,17 @@ class QuestFragment(
     }
 
     private fun initListeners() {
+        questAnswerEditText.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+        }
         questTryAnswerButton.setOnClickListener {
             lifecycleScope.launch(Dispatchers.Main) {
-                val isSuccess = viewModel.tryAnswer(questAnswerView.text.toString())
+                val isSuccess = viewModel.tryAnswer(questAnswerEditText.text.toString())
                 if (!isSuccess) {
                     Log.d(TAG, "wrong answer")
-                    questWrongAnswerView.visibility = View.VISIBLE
+                    questWrongAnswerText.visibility = View.VISIBLE
                     delay(1000)
                     if (!hintFab.isShown) {
                         hintFab.show()
@@ -141,12 +144,9 @@ class QuestFragment(
                             R.anim.disappear_animation
                         )
                     animation.setAnimationListener(wrongAnswerAnimationListener)
-                    questWrongAnswerView.startAnimation(animation)
+                    questWrongAnswerText.startAnimation(animation)
                 }
             }
-        }
-        questNextButton.setOnClickListener {
-            viewModel.fetchNextStep()
         }
         viewModel.questStepLiveData.observe(viewLifecycleOwner) { dataState ->
             handleState(dataState)
@@ -218,7 +218,7 @@ class QuestFragment(
         toolbar.setSubTitle(questStep.subtitle)
         questTextView.text =
             Html.fromHtml(requireContext().getString(R.string.quest_text_template, questStep.text))
-        questWrongAnswerView.text = questStep.wrongMessage
+        questWrongAnswerText.text = questStep.wrongMessage
         val questStepImage = ImageUtils.getDrawableIdByName(requireContext(), questStep.imageName)
         if (questStepImage == null) {
             questImageView.visibility = View.GONE
@@ -226,20 +226,13 @@ class QuestFragment(
             questImageView.visibility = View.VISIBLE
             questImageView.setImageResource(questStepImage)
         }
-        questAnswerView.text.clear()
+        questAnswerEditText.text.clear()
         questContentView.scrollTo(0, 0)
         appBar.setExpanded(true, true)
         if (questStep.isDone) {
             questIsDoneViewGroup.visibility = View.VISIBLE
             questAnswerViewGroup.visibility = View.GONE
             questAnswerText.text = questStep.answersList.firstOrNull()
-            questNextButton.text = requireContext().getString(
-                if (questStep.nextStepId == null) {
-                    R.string.end_quest_button
-                } else {
-                    R.string.next_seal_button_text
-                }
-            )
         } else {
             questIsDoneViewGroup.visibility = View.GONE
             questAnswerViewGroup.visibility = View.VISIBLE
