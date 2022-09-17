@@ -1,7 +1,6 @@
 package ru.montgolfiere.searchquest.fragments
 
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,6 +27,7 @@ import kotlinx.coroutines.launch
 import ru.montgolfiere.searchquest.R
 import ru.montgolfiere.searchquest.animations.CustomAnimationListener
 import ru.montgolfiere.searchquest.model.QuestStep
+import ru.montgolfiere.searchquest.utils.ImageUtils
 import ru.montgolfiere.searchquest.viewmodels.QuestViewModel
 import ru.montgolfiere.searchquest.viewmodels.QuestViewModelFactory
 import ru.montgolfiere.searchquest.viewmodels.StateModel
@@ -40,7 +40,9 @@ import ru.montgolfiere.searchquest.viewmodels.state.screen.FinishScreenState
 import ru.montgolfiere.searchquest.viewmodels.state.screen.HistoryState
 import ru.montgolfiere.searchquest.viewmodels.state.screen.ViewState
 import ru.montgolfiere.searchquest.views.BottomSheetView
+import ru.montgolfiere.searchquest.views.QuestStepSwitchView
 import ru.montgolfiere.searchquest.views.ToolbarView
+
 
 class QuestFragment(
     questViewModelFactory: QuestViewModelFactory,
@@ -55,11 +57,10 @@ class QuestFragment(
     private lateinit var questTryAnswerButton: Button
     private lateinit var questNextButton: Button
     private lateinit var questErrorView: FrameLayout
-    private lateinit var questStubView: FrameLayout
+    private lateinit var questStepSwitchView: QuestStepSwitchView
     private lateinit var questContentView: NestedScrollView
     private lateinit var questAnswerViewGroup: LinearLayout
     private lateinit var questIsDoneViewGroup: LinearLayout
-    private lateinit var questStubImage: ImageView
     private lateinit var questAnswerText: TextView
     private lateinit var hintFab: FloatingActionButton
     private lateinit var bottomSheet: BottomSheetView
@@ -113,12 +114,12 @@ class QuestFragment(
         questAnswerText = root.findViewById(R.id.answer)
         appBar = root.findViewById(R.id.app_bar)
         questContentView = root.findViewById(R.id.quest_content_view)
-        questStubView = root.findViewById(R.id.quest_stub_view)
-        questStubImage = root.findViewById(R.id.quest_stub_image)
+        questStepSwitchView = root.findViewById(R.id.quest_stub_view)
         questErrorView = root.findViewById(R.id.quest_error_view)
         questNextButton = root.findViewById(R.id.quest_next_button)
         hintFab = root.findViewById(R.id.quest_hint_fab)
         bottomSheet = root.findViewById(R.id.bottom_sheet)
+        bottomSheet.viewModel = viewModel
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
@@ -174,7 +175,7 @@ class QuestFragment(
             }
             is LoadingState -> {
                 Log.d(TAG, "LoadingState")
-                stub()
+                stub(state.data)
             }
             is ErrorState -> {
                 Log.d(TAG, "ErrorState")
@@ -187,23 +188,21 @@ class QuestFragment(
     }
 
     private fun showError() {
-        stub()
-        questStubView.visibility = View.GONE
+        stub(null)
+
         questErrorView.visibility = View.VISIBLE
     }
 
-    private fun stub() {
+    private fun stub(questStep: QuestStep?) {
         Log.d(TAG, "stub")
         toolbar.visibility = View.GONE
         questErrorView.visibility = View.GONE
         questContentView.visibility = View.GONE
-        questStubView.visibility = View.VISIBLE
-        questStubImage.startAnimation(
-            AnimationUtils.loadAnimation(
-                requireContext(),
-                R.anim.infinity_rotate_animation
-            )
-        )
+        if (questStep == null) {
+            questStepSwitchView.hide()
+        } else {
+            questStepSwitchView.show(questStep)
+        }
         hintFab.visibility = View.INVISIBLE
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
@@ -212,7 +211,7 @@ class QuestFragment(
         Log.d(TAG, "bind $questStep")
         toolbar.visibility = View.VISIBLE
         questErrorView.visibility = View.GONE
-        questStubView.visibility = View.GONE
+        questStepSwitchView.hide()
         questContentView.visibility = View.VISIBLE
 
         toolbar.setTitle(questStep.title)
@@ -220,7 +219,7 @@ class QuestFragment(
         questTextView.text =
             Html.fromHtml(requireContext().getString(R.string.quest_text_template, questStep.text))
         questWrongAnswerView.text = questStep.wrongMessage
-        val questStepImage = getQuestStepImage(questStep)
+        val questStepImage = ImageUtils.getDrawableIdByName(requireContext(), questStep.imageName)
         if (questStepImage == null) {
             questImageView.visibility = View.GONE
         } else {
@@ -247,14 +246,6 @@ class QuestFragment(
         }
         bottomSheet.bind(questStep)
 
-    }
-
-    private fun getQuestStepImage(questStep: QuestStep): Int? {
-        return context?.resources?.getIdentifier(
-            questStep.imageName,
-            "drawable",
-            requireContext().packageName
-        )
     }
 
     companion object {

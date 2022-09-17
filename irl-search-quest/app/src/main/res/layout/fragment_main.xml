@@ -180,14 +180,15 @@
         android:layout_margin="20dp"
         app:layout_anchorGravity="top|end"
         android:src="@drawable/ic_help_24"
-        app:hideMotionSpec="@anim/disappear_animation"
         app:layout_anchor="@+id/bottom_sheet"
         app:maxImageSize="44dp"
         android:visibility="invisible"
-        app:showMotionSpec="@anim/appear_scale_animation"
         tools:visibility="visible" />
 
-    <include layout="@layout/loading_view" />
+    <ru.montgolfiere.searchquest.views.QuestStepSwitchView
+        android:id="@+id/quest_stub_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <include layout="@layout/error_view" />
 

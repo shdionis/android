@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.montgolfiere.searchquest.R
 import ru.montgolfiere.searchquest.model.Quest
 import ru.montgolfiere.searchquest.model.QuestStep
+import ru.montgolfiere.searchquest.utils.ImageUtils
 import ru.montgolfiere.searchquest.viewmodels.QuestViewModel
 import ru.montgolfiere.searchquest.viewmodels.QuestViewModelFactory
 import ru.montgolfiere.searchquest.viewmodels.StateModel
@@ -85,13 +86,11 @@ class QuestHistoryFragment(questViewModelFactory: QuestViewModelFactory) : Fragm
         private val subtitle: TextView = view.findViewById(R.id.history_item_subtitle)
 
         fun bind(questStep: QuestStep, listener: View.OnClickListener) {
-            val imageName = if (questStep.isDone) "seal${questStep.id}_broken" else "seal${questStep.id}"
-            val imageId =
-                view.context.resources.getIdentifier(
-                    imageName,
-                    "drawable",
-                    view.context.packageName
-                )
+            val imageId = if (questStep.isDone) {
+                ImageUtils.getBrokenSealDrawableId(view.context, questStep.id)
+            } else {
+                ImageUtils.getSealDrawableId(view.context, questStep.id)
+            }
             historyImage.setImageResource(imageId)
             title.text = questStep.title
             if (questStep.isDone) {
