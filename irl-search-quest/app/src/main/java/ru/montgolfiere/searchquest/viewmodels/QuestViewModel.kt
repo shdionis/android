@@ -18,7 +18,7 @@ import ru.montgolfiere.searchquest.viewmodels.state.State
 class QuestViewModel(
     private val questInteractor: QuestInteractor
 ): ViewModel() {
-    private val internalQuestStepLiveData = MutableLiveData<State>(LoadingState)
+    private val internalQuestStepLiveData = MutableLiveData<State>(LoadingState(null))
     private val internalQuestLiveData = MutableLiveData<Quest>()
     private var currentStep: QuestStep? = null
 
@@ -41,7 +41,7 @@ class QuestViewModel(
                         ErrorState
                     }
                     DataResponseCode.PROCESSING -> {
-                        LoadingState
+                        LoadingState(null)
                     }
                 }
             }
@@ -63,7 +63,7 @@ class QuestViewModel(
         val isSuccess = questInteractor.checkAnswer(step, answer)
         if (isSuccess) {
             viewModelScope.launch {
-                internalQuestStepLiveData.value = LoadingState
+                internalQuestStepLiveData.value = LoadingState(step)
                 delay(1000)
                 goToNextStep()
             }
@@ -97,6 +97,9 @@ class QuestViewModel(
         } else {
             internalQuestStepLiveData.value = ErrorState
         }
+    }
 
+    fun storeQuestModel() {
+        questInteractor.storeQuestModel()
     }
 }

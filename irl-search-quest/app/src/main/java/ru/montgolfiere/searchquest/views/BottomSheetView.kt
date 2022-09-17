@@ -13,14 +13,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ru.montgolfiere.searchquest.QuestApplication
 import ru.montgolfiere.searchquest.R
 import ru.montgolfiere.searchquest.animations.CustomAnimationListener
 import ru.montgolfiere.searchquest.config.QuestConfig
-import ru.montgolfiere.searchquest.interact.QuestInteractor
 import ru.montgolfiere.searchquest.model.QuestStep
+import ru.montgolfiere.searchquest.viewmodels.QuestViewModel
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 class BottomSheetView @JvmOverloads constructor(
     context: Context,
@@ -30,16 +28,13 @@ class BottomSheetView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
     private val hintRecyclerView: RecyclerView
     private val hintRecyclerViewAdapter: HintViewAdapter
-
-    @Inject
-    lateinit var questInteractor: QuestInteractor
+    lateinit var viewModel: QuestViewModel
 
     init {
-        QuestApplication.component.inject(this)
         inflate(context, R.layout.bottom_sheet, this)
         hintRecyclerView = findViewById(R.id.quest_hint_list_view)
         hintRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        hintRecyclerViewAdapter = HintViewAdapter(questInteractor)
+        hintRecyclerViewAdapter = HintViewAdapter(this)
         hintRecyclerView.adapter = hintRecyclerViewAdapter
     }
 
@@ -52,7 +47,11 @@ class BottomSheetView @JvmOverloads constructor(
         }
     }
 
-    class HintViewAdapter(val questInteractor: QuestInteractor) :
+    private fun storeQuestModel() {
+        viewModel.storeQuestModel()
+    }
+
+    class HintViewAdapter(val bottomSheetView: BottomSheetView) :
         RecyclerView.Adapter<HintViewHolder>() {
         var item: QuestStep? = null
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HintViewHolder {
@@ -74,7 +73,7 @@ class BottomSheetView @JvmOverloads constructor(
         }
 
         fun storeQuestStep() {
-            questInteractor.storeQuestModel()
+            bottomSheetView.storeQuestModel()
         }
 
         fun bind(step: QuestStep) {

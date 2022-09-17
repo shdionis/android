@@ -1,6 +1,7 @@
 package ru.montgolfiere.searchquest
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ru.montgolfiere.searchquest.fragments.QuestFragment
@@ -33,9 +34,11 @@ class ContainerActivity : AppCompatActivity() {
             var isNeedToBackStack = false
             val fragment = when (state) {
                 is MainState -> {
+                    Log.d(TAG, "MainState")
                     questFragmentFactory.createQuestFragment()
                 }
                 is ViewState -> {
+                    Log.d(TAG, "ViewState")
                     isNeedToBackStack = true
                     questFragmentFactory.createQuestFragment().apply {
                         arguments = Bundle().apply {
@@ -44,21 +47,33 @@ class ContainerActivity : AppCompatActivity() {
                     }
                 }
                 is HistoryState -> {
+                    Log.d(TAG, "HistoryState")
                     isNeedToBackStack = true
                     questFragmentFactory.createQuestHistoryFragment()
                 }
                 is FinishScreenState -> {
+                    Log.d(TAG, "FinishScreenState")
                     questFragmentFactory.createFinishFragment()
                 }
             }
-            val transaction = supportFragmentManager.beginTransaction().replace(
-                R.id.fragment_content,
-                fragment
-            )
+            val transaction = supportFragmentManager.beginTransaction()
             if (isNeedToBackStack) {
+                transaction.add(
+                    R.id.fragment_content,
+                    fragment
+                )
                 transaction.addToBackStack(null)
+            } else {
+                transaction.replace(
+                    R.id.fragment_content,
+                    fragment
+                )
             }
             transaction.commit()
         }
+    }
+
+    companion object {
+        private const val TAG = "ContainerActivity"
     }
 }

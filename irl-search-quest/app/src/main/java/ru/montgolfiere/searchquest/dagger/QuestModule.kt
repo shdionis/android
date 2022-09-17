@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import ru.montgolfiere.searchquest.config.QuestConfig
 import ru.montgolfiere.searchquest.fragments.QuestFragmentFactory
-import ru.montgolfiere.searchquest.interact.QuestInteractor
+import ru.montgolfiere.searchquest.interact.QuestInteractorFactory
 import ru.montgolfiere.searchquest.model.repository.QuestRepository
 import ru.montgolfiere.searchquest.viewmodels.QuestViewModelFactory
 import javax.inject.Singleton
@@ -23,9 +23,9 @@ class QuestModule {
     @Provides
     @Singleton
     fun provideQuestViewModelFactory(
-        questInteractor: QuestInteractor,
+        questInteractorFactory: QuestInteractorFactory,
     ): QuestViewModelFactory {
-        return QuestViewModelFactory(questInteractor)
+        return QuestViewModelFactory(questInteractorFactory)
     }
 
     @Provides
@@ -41,8 +41,8 @@ class QuestModule {
     fun provideQuestInteractor(
         repository: QuestRepository,
         config: QuestConfig
-    ): QuestInteractor {
-        return QuestInteractor(repository, config)
+    ): QuestInteractorFactory {
+        return QuestInteractorFactory(repository, config)
     }
 
     @Provides
