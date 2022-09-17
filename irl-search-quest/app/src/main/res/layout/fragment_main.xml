@@ -90,9 +90,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        app:cardBackgroundColor="@color/primary_color_30"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp"
+                        android:background="@drawable/button_rounded_12"
+                        android:backgroundTint="@color/primary_color_30"
+                        android:elevation="6dp"
                         app:layout_constraintBottom_toTopOf="@+id/quest_button"
                         app:layout_constraintEnd_toEndOf="@id/quest_button"
                         app:layout_constraintStart_toStartOf="@id/quest_button">
@@ -132,14 +132,14 @@
                         tools:text="ОШИБКА"
                         tools:visibility="visible" />
 
-                    <androidx.cardview.widget.CardView
+                    <FrameLayout
                         android:id="@+id/quest_answer_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        app:cardBackgroundColor="@color/primary_color_30"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp">
+                        android:background="@drawable/button_rounded_12"
+                        android:backgroundTint="@color/primary_color_30"
+                        android:elevation="2dp">
 
                         <EditText
                             android:id="@+id/quest_answer"
@@ -152,7 +152,7 @@
                             android:maxLines="1"
                             android:paddingHorizontal="8dp"
                             android:textColorHint="#Afffffff" />
-                    </androidx.cardview.widget.CardView>
+                    </FrameLayout>
 
                     <Button
                         android:id="@+id/quest_button"

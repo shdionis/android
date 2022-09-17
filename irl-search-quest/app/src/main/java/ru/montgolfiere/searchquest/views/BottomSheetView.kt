@@ -89,7 +89,7 @@ class BottomSheetView @JvmOverloads constructor(
         private val timerLable: TextView = view.findViewById(R.id.hint_timer_label)
         private val openHint: TextView = view.findViewById(R.id.open_hint_view)
         private val timerImg: ImageView = view.findViewById(R.id.hint_timer_img)
-        private val overlay: FrameLayout = view.findViewById(R.id.hint_overlay)
+        private val overlay: ViewGroup = view.findViewById(R.id.hint_overlay)
         private var timer: CountDownTimer? = null
 
         fun bind(questStep: QuestStep?, position: Int) {
