@@ -9,6 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="wrong_label_text_color">#ff5201</color>
     <color name="control_color">#171717</color>
-    <color name="hint_view_end_color">#262D3F</color>
+    <color name="hint_view_end_color">#018B9E</color>
     <color name="hint_view_start_color">#21252F</color>
 </resources>

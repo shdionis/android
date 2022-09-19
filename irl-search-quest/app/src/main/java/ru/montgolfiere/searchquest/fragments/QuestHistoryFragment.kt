@@ -84,6 +84,7 @@ class QuestHistoryFragment(questViewModelFactory: QuestViewModelFactory) : Fragm
         private val historyImage: ImageView = view.findViewById(R.id.history_item_img)
         private val title: TextView = view.findViewById(R.id.history_item_title)
         private val subtitle: TextView = view.findViewById(R.id.history_item_subtitle)
+        private val lockOverlay: View = view.findViewById(R.id.history_item_lock_overlay)
 
         fun bind(questStep: QuestStep, listener: View.OnClickListener) {
             val imageId = if (questStep.isDone) {
@@ -96,9 +97,12 @@ class QuestHistoryFragment(questViewModelFactory: QuestViewModelFactory) : Fragm
             if (questStep.isDone) {
                 subtitle.text = questStep.answersList.firstOrNull()
                 subtitle.visibility = View.VISIBLE
+                lockOverlay.visibility = View.GONE
                 view.setOnClickListener(listener)
             } else {
                 subtitle.visibility = View.GONE
+                lockOverlay.visibility = View.VISIBLE
+                
             }
         }
     }

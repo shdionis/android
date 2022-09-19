@@ -1,198 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/quest_fragment_background">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleCollapseMode="scale">
+
+                <ru.montgolfiere.searchquest.views.ToolbarView
+                    android:id="@+id/quest_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/quest_content_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:titleCollapseMode="scale">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <ru.montgolfiere.searchquest.views.ToolbarView
-                android:id="@+id/quest_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/quest_content_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="24dp"
-            android:paddingBottom="24dp">
-
-            <TextView
-                android:id="@+id/quest_text"
-                style="@style/QuestAppText.Secondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Main Fragment" />
-
-            <FrameLayout
-                android:id="@+id/quest_image_container"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@id/bottom_views_container"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/quest_text">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/quest_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    app:srcCompat="@drawable/fenrir" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/bottom_views_container"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:paddingHorizontal="24dp"
+                android:paddingBottom="24dp">
 
-                <LinearLayout
-                    android:id="@+id/step_done_views_container"
+                <TextView
+                    android:id="@+id/quest_text"
+                    style="@style/QuestAppText.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Main Fragment" />
+
+                <FrameLayout
+                    android:id="@+id/quest_image_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@id/bottom_views_container"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/quest_text">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/quest_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/fenrir" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/bottom_views_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="vertical"
-                    android:paddingVertical="8dp">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                    <FrameLayout
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/step_done_views_container"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/button_rounded_12"
-                        android:backgroundTint="@color/primary_color_30"
-                        android:elevation="6dp"
-                        app:layout_constraintBottom_toTopOf="@+id/quest_button"
-                        app:layout_constraintEnd_toEndOf="@id/quest_button"
-                        app:layout_constraintStart_toStartOf="@id/quest_button">
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical"
+                        android:paddingVertical="8dp">
 
-                        <TextView
-                            android:id="@+id/answer"
-                            style="@style/QuestAppText.Secondary"
+                        <FrameLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:textAlignment="center"
-                            android:textStyle="italic"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:text="Бла бла бла" />
-                    </FrameLayout>
-                </LinearLayout>
+                            android:layout_gravity="center"
+                            android:background="@drawable/button_rounded_12"
+                            android:backgroundTint="@color/primary_color_30"
+                            android:elevation="6dp"
+                            app:layout_constraintBottom_toTopOf="@+id/quest_button"
+                            app:layout_constraintEnd_toEndOf="@id/quest_button"
+                            app:layout_constraintStart_toStartOf="@id/quest_button">
 
-                <LinearLayout
-                    android:id="@+id/answer_views_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    tools:visibility="gone">
+                            <TextView
+                                android:id="@+id/answer"
+                                style="@style/QuestAppText.Secondary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:textAlignment="center"
+                                android:textStyle="italic"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="Бла бла бла" />
+                        </FrameLayout>
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/quest_answer_wrong"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:fontFamily="@font/accuratist_regular"
-                        android:textColor="@color/wrong_label_text_color"
-                        android:textSize="16sp"
-                        android:textStyle="bold|italic"
-                        android:visibility="invisible"
-                        tools:text="ОШИБКА"
-                        tools:visibility="visible" />
-
-                    <FrameLayout
-                        android:id="@+id/quest_answer_container"
+                    <LinearLayout
+                        android:id="@+id/answer_views_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:background="@drawable/button_rounded_12"
-                        android:backgroundTint="@color/primary_color_30"
-                        android:elevation="2dp">
+                        android:orientation="vertical"
+                        tools:visibility="gone">
 
-                        <EditText
-                            android:id="@+id/quest_answer"
-                            style="@style/QuestAppText.Tertiary"
+                        <TextView
+                            android:id="@+id/quest_answer_wrong"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:fontFamily="@font/accuratist_regular"
+                            android:textColor="@color/wrong_label_text_color"
+                            android:textSize="16sp"
+                            android:textStyle="bold|italic"
+                            android:visibility="invisible"
+                            tools:text="ОШИБКА"
+                            tools:visibility="visible" />
+
+                        <FrameLayout
+                            android:id="@+id/quest_answer_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@android:color/transparent"
-                            android:hint="@string/write_answer"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:paddingHorizontal="8dp"
-                            android:textColorHint="#Afffffff" />
-                    </FrameLayout>
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/button_rounded_12"
+                            android:backgroundTint="@color/primary_color_30"
+                            android:elevation="2dp">
 
-                    <Button
-                        android:id="@+id/quest_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/accuratist_regular"
-                        android:text="@string/quest_check_answer_button_text" />
-                </LinearLayout>
-            </FrameLayout>
+                            <EditText
+                                android:id="@+id/quest_answer"
+                                style="@style/QuestAppText.Tertiary"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@android:color/transparent"
+                                android:hint="@string/write_answer"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:paddingHorizontal="8dp"
+                                android:textColorHint="#Afffffff" />
+                        </FrameLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+                        <Button
+                            android:id="@+id/quest_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/accuratist_regular"
+                            android:text="@string/quest_check_answer_button_text" />
+                    </LinearLayout>
+                </FrameLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/quest_hint_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        app:layout_anchorGravity="top|end"
-        android:src="@drawable/ic_help_24"
-        app:layout_anchor="@+id/bottom_sheet"
-        app:maxImageSize="44dp"
-        android:visibility="invisible"
-        tools:visibility="visible" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/quest_hint_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:layout_anchorGravity="top|end"
+            android:src="@drawable/ic_help_24"
+            app:layout_anchor="@+id/bottom_sheet"
+            app:maxImageSize="44dp"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+        <ru.montgolfiere.searchquest.views.BottomSheetView
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="40dp"
+            app:layout_behavior="@string/bottom_sheet_behavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
     <ru.montgolfiere.searchquest.views.QuestStepSwitchView
-        android:id="@+id/quest_stub_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    android:id="@+id/quest_stub_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
 
     <include layout="@layout/error_view" />
-
-    <ru.montgolfiere.searchquest.views.BottomSheetView
-        android:id="@+id/bottom_sheet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        app:behavior_hideable="true"
-        app:behavior_peekHeight="40dp"
-        app:layout_behavior="@string/bottom_sheet_behavior" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

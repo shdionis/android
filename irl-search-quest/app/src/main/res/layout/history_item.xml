@@ -47,4 +47,23 @@
             android:textStyle="italic"
             tools:text="Gtxfnm 1" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/history_item_lock_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/history_item_background"
+        android:backgroundTint="#B3FFFFFF">
+        <ImageView
+            android:id="@+id/history_item_lock_img"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_lock_24"
+            android:layout_margin="8dp"
+            android:layout_gravity="start|center"/>
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
