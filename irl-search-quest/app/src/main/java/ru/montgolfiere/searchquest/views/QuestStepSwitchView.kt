@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
-import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -63,6 +62,11 @@ class QuestStepSwitchView @JvmOverloads constructor(
         sealImage.startAnimation(appearAnim)
         visibility = View.VISIBLE
     }
+
+    fun isAnimationInProgress(): Boolean {
+        return state == ANIMATION_IN_PROGRESS
+    }
+
     companion object {
         private const val TAG = "QuestStepSwitchView"
         private const val ANIMATION_IN_PROGRESS = 1

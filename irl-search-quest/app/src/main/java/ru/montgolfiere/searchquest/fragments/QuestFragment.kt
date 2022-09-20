@@ -182,7 +182,12 @@ class QuestFragment(
                 showError()
             }
             is FinishState -> {
-                stateModel.route(FinishScreenState)
+                lifecycleScope.launch(Dispatchers.Main) {
+                    while(questStepSwitchView.isAnimationInProgress()) {
+                        delay(200)
+                    }
+                    stateModel.route(FinishScreenState)
+                }
             }
         }
     }
