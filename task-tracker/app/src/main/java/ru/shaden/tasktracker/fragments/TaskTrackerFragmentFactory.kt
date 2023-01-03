@@ -6,8 +6,11 @@ import ru.shaden.tasktracker.fragments.project.ProjectsListFragment
 import ru.shaden.tasktracker.fragments.task.TaskDetailsFragment
 import ru.shaden.tasktracker.fragments.task.TasksListFragment
 import ru.shaden.tasktracker.fragments.workspace.WorkspacesListFragment
+import ru.shaden.tasktracker.viewmodels.TaskTrackerViewModelProviderFactory
 
-class TaskTrackerFragmentFactory : FragmentFactory() {
+class TaskTrackerFragmentFactory(
+    private val viewModelProviderFactory: TaskTrackerViewModelProviderFactory
+) : FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         return when (className) {
             ProjectsListFragment::class.java.name -> createProjectsListFragment()
@@ -19,14 +22,14 @@ class TaskTrackerFragmentFactory : FragmentFactory() {
     }
 
     fun createProjectsListFragment(): Fragment =
-        ProjectsListFragment()
+        ProjectsListFragment(viewModelProviderFactory)
 
     fun createWorkspacesListFragment(): Fragment =
-        WorkspacesListFragment()
+        WorkspacesListFragment(viewModelProviderFactory)
 
     fun createTasksListFragment(): Fragment =
-        TasksListFragment()
+        TasksListFragment(viewModelProviderFactory)
 
     fun createTasksDetailsFragment(): Fragment =
-        TaskDetailsFragment()
+        TaskDetailsFragment(viewModelProviderFactory)
 }

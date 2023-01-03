@@ -8,17 +8,19 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import ru.shaden.tasktracker.R
-import ru.shaden.tasktracker.di.DumbDI
 import ru.shaden.tasktracker.fragments.BaseFragment
 import ru.shaden.tasktracker.viewmodels.TaskDetailsViewModel
+import ru.shaden.tasktracker.viewmodels.TaskTrackerViewModelProviderFactory
 
-class TaskDetailsFragment : BaseFragment() {
+class TaskDetailsFragment(
+    viewModelProviderFactory: TaskTrackerViewModelProviderFactory
+) : BaseFragment() {
 
     private lateinit var taskTitle: EditText
     private lateinit var taskStatus: TextView
     private lateinit var taskDescription: TextView
     private val viewModel: TaskDetailsViewModel by activityViewModels {
-        DumbDI.viewModelProviderFactory
+        viewModelProviderFactory
     }
 
     override fun onCreateView(
