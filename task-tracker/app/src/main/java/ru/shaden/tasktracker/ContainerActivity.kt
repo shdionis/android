@@ -6,24 +6,33 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-import ru.shaden.tasktracker.di.DumbDI
+import ru.shaden.tasktracker.di.ActivityTaskTrackerModule
+
 import ru.shaden.tasktracker.fragments.TaskTrackerFragmentFactory
 import ru.shaden.tasktracker.fragments.task.TaskDetailsFragment
 import ru.shaden.tasktracker.fragments.task.TasksListFragment
 import ru.shaden.tasktracker.fragments.workspace.WorkspacesListFragment
 import ru.shaden.tasktracker.viewmodels.ScreenSwitchViewModel
 import ru.shaden.tasktracker.viewmodels.State
+import ru.shaden.tasktracker.viewmodels.TaskTrackerViewModelProviderFactory
+import javax.inject.Inject
 
 class ContainerActivity : AppCompatActivity() {
+    @Inject
+    lateinit var fragmentFactory: TaskTrackerFragmentFactory
+    @Inject
+    lateinit var viewModelProviderFactory: TaskTrackerViewModelProviderFactory
+
     private val screenSwitchViewModel: ScreenSwitchViewModel by viewModels {
-        DumbDI.viewModelProviderFactory
+        viewModelProviderFactory
     }
 
-    private lateinit var fragmentFactory: TaskTrackerFragmentFactory
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        fragmentFactory = DumbDI.taskTrackerFragmentFactory
+        TaskTrackerApplication.applicationComponent
+            .initTaskActivityComponent(ActivityTaskTrackerModule())
+            .inject(this)
         supportFragmentManager.fragmentFactory = fragmentFactory
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.container_activity)
         lifecycleScope.launch {
             screenSwitchViewModel.selectedFlow.collect { state ->

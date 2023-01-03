@@ -8,16 +8,18 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.shaden.tasktracker.R
-import ru.shaden.tasktracker.di.DumbDI
 import ru.shaden.tasktracker.fragments.BaseFragment
 import ru.shaden.tasktracker.model.Workspace
 import ru.shaden.tasktracker.viewmodels.State
+import ru.shaden.tasktracker.viewmodels.TaskTrackerViewModelProviderFactory
 import ru.shaden.tasktracker.viewmodels.WorkspacesListViewModel
 
-class WorkspacesListFragment : BaseFragment(), WorkspacesRecyclerAdapter.Listener {
+class WorkspacesListFragment(
+    viewModelProviderFactory: TaskTrackerViewModelProviderFactory
+) : BaseFragment(), WorkspacesRecyclerAdapter.Listener {
     private lateinit var recyclerView: RecyclerView
     private val viewModel: WorkspacesListViewModel by activityViewModels {
-        DumbDI.viewModelProviderFactory
+        viewModelProviderFactory
     }
 
     lateinit var adapter: WorkspacesRecyclerAdapter;

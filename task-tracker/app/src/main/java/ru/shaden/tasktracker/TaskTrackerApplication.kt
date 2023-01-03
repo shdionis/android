@@ -1,23 +1,19 @@
 package ru.shaden.tasktracker
 
 import android.app.Application
-import androidx.room.Room
-import ru.shaden.tasktracker.model.room.TaskTrackerDatabase
+import ru.shaden.tasktracker.di.AndroidApplicationModule
+import ru.shaden.tasktracker.di.component.ApplicationComponent
+import ru.shaden.tasktracker.di.component.DaggerApplicationComponent
 
 class TaskTrackerApplication : Application() {
-    lateinit var database: TaskTrackerDatabase
-
     override fun onCreate() {
         super.onCreate()
-        instance = this
-        database = Room.databaseBuilder(
-            this,
-            TaskTrackerDatabase::class.java,
-            "d"
-        ).createFromAsset("dump_dev_task_tracker.db").build()
+        applicationComponent = DaggerApplicationComponent.builder()
+            .androidApplicationModule(AndroidApplicationModule(this))
+            .build()
     }
 
     companion object {
-        lateinit var instance: TaskTrackerApplication
+        lateinit var applicationComponent: ApplicationComponent
     }
 }

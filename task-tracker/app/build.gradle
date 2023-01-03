@@ -4,8 +4,6 @@ plugins {
 }
 apply plugin: 'kotlin-kapt'
 
-
-
 android {
     compileSdk 31
 
@@ -77,6 +75,10 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
 
+    // room
+    def dagger2_version = "2.41"
+    implementation "com.google.dagger:dagger:$dagger2_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger2_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
